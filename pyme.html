@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGND · Para Pymes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --az1:#0b1d35;--az2:#0d2240;--az3:#102d5a;--az4:#1a4a8a;
+  --verde:#3ab58a;--verde2:#2e9670;
+  --blanco:#fff;--gris1:#eef0f3;--gris3:#7a90a8;
+  --texto:#b8ccde;
+  --ff1:'Syne',sans-serif;--ff2:'DM Sans',sans-serif;--ffL:'Nunito',sans-serif;
+  --r:16px;--tr:.35s cubic-bezier(.25,.8,.25,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--az1);color:var(--blanco);font-family:var(--ff2);overflow-x:hidden;min-height:100vh}
+
+/* CURSOR */
+#lc{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 0 8px 3px rgba(255,255,255,.7),0 0 24px 6px rgba(255,255,255,.15);transform:translate(-50%,-50%)}
+#lt{position:fixed;top:0;left:0;pointer-events:none;z-index:9998;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);transform:translate(-50%,-50%);transition:left .1s ease,top .1s ease}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(11,29,53,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06)}
+.logo{font-family:var(--ffL);font-weight:700;font-size:1.8rem;color:#fff;text-decoration:none}
+.nav-back{font-family:var(--ff1);font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--texto);text-decoration:none;transition:color var(--tr)}
+.nav-back:hover{color:#fff}
+.nav-cta{background:#fff;color:var(--az1);padding:10px 22px;border-radius:100px;font-family:var(--ff1);font-weight:700;font-size:.85rem;letter-spacing:.04em;text-decoration:none;transition:all var(--tr)}
+.nav-cta:hover{background:#e8e8e8;transform:translateY(-1px)}
+
+/* HERO */
+.hero{padding:140px 60px 70px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 25% 50%,rgba(58,181,138,.13) 0%,transparent 70%),linear-gradient(160deg,var(--az1) 0%,#0d1f3c 100%);z-index:0}
+.hero-bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px}
+.hero-cont{position:relative;z-index:1;max-width:720px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(58,181,138,.12);border:1px solid rgba(58,181,138,.3);color:var(--verde);font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:8px 18px;border-radius:100px;margin-bottom:28px}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--verde)}
+.hero h1{font-family:var(--ff1);font-size:clamp(2.8rem,6vw,5rem);font-weight:800;line-height:1;letter-spacing:-.03em;margin-bottom:20px}
+.hero h1 span{color:var(--verde)}
+.hero-sub{font-size:1.1rem;font-weight:300;color:var(--texto);line-height:1.7;max-width:560px;margin-bottom:36px}
+.hero-pills{display:flex;flex-wrap:wrap;gap:10px}
+.hero-pill{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--texto);font-size:.82rem;padding:7px 16px;border-radius:100px}
+
+/* SECCION */
+.seccion{padding:80px 60px}
+.sec-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(58,181,138,.1);border:1px solid rgba(58,181,138,.25);color:var(--verde);font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:20px}
+.sec-titulo{font-family:var(--ff1);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:12px}
+.sec-sub{font-size:1rem;color:var(--texto);line-height:1.65;max-width:560px;margin-bottom:48px}
+
+/* PLANES GRID */
+.planes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
+
+.plan{border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform var(--tr),box-shadow var(--tr)}
+.plan:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,.35)}
+
+.plan-header{padding:28px 24px 22px;background:var(--az3);position:relative}
+.plan-header.dest{background:var(--verde)}
+.plan-nivel{font-family:var(--ff1);font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:6px}
+.plan-nombre{font-family:var(--ff1);font-size:1.3rem;font-weight:800;letter-spacing:.02em;margin-bottom:6px}
+.plan-claim{font-size:.85rem;color:rgba(255,255,255,.7);line-height:1.4}
+.plan-header.dest .plan-claim{color:rgba(255,255,255,.85)}
+
+.plan-body{padding:24px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-top:none;flex:1;display:flex;flex-direction:column;border-radius:0 0 var(--r) var(--r)}
+.plan-target{font-size:.83rem;color:var(--gris3);line-height:1.55;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.06);font-style:italic}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:24px;flex:1}
+.plan-features li{display:flex;align-items:flex-start;gap:10px;font-size:.85rem;color:var(--texto);line-height:1.5}
+.plan-features li .dot{width:6px;height:6px;border-radius:50%;background:var(--verde);flex-shrink:0;margin-top:6px}
+.plan-features li.heredado .dot{background:rgba(255,255,255,.25)}
+.plan-features li.heredado{color:var(--gris3)}
+
+.plan-btns{display:flex;flex-direction:column;gap:8px;margin-top:auto}
+.btn-ver{background:transparent;border:1.5px solid rgba(255,255,255,.2);color:#fff;padding:11px 16px;border-radius:100px;font-family:var(--ff1);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:none;transition:all var(--tr);width:100%}
+.btn-ver:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.4)}
+.plan-header.dest ~ .plan-body .btn-ver{border-color:rgba(255,255,255,.3)}
+.btn-llamada{background:transparent;border:1.5px solid rgba(58,181,138,.4);color:var(--verde);padding:11px 16px;border-radius:100px;font-family:var(--ff1);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all var(--tr);width:100%;text-align:center;display:block;cursor:none}
+.btn-llamada:hover{background:rgba(58,181,138,.1);border-color:var(--verde)}
+.plan-dest .btn-llamada{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.4);color:#fff}
+.plan-dest .btn-llamada:hover{background:rgba(255,255,255,.2)}
+
+/* DIVISOR */
+.divisor{height:1px;background:rgba(255,255,255,.06);margin:0 60px}
+
+/* SERVICIOS PUNTUALES */
+.sp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+
+.sp-card{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:var(--r);padding:28px;transition:all var(--tr);cursor:none}
+.sp-card:hover{border-color:rgba(58,181,138,.35);background:rgba(58,181,138,.05);transform:translateY(-2px)}
+.sp-ico{font-size:1.6rem;margin-bottom:14px}
+.sp-nombre{font-family:var(--ff1);font-size:1rem;font-weight:800;margin-bottom:8px}
+.sp-desc{font-size:.85rem;color:var(--texto);line-height:1.6;margin-bottom:18px}
+.sp-items{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
+.sp-items li{font-size:.8rem;color:var(--gris3);display:flex;align-items:center;gap:8px}
+.sp-items li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--verde);flex-shrink:0}
+.btn-sp{background:transparent;border:1.5px solid rgba(255,255,255,.15);color:#fff;padding:9px 16px;border-radius:100px;font-family:var(--ff1);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:none;transition:all var(--tr);display:inline-block;text-decoration:none}
+.btn-sp:hover{border-color:rgba(58,181,138,.5);color:var(--verde)}
+
+/* CTA FINAL */
+.cta-wrap{padding:80px 60px;background:var(--az2);text-align:center}
+.cta-wrap h2{font-family:var(--ff1);font-size:clamp(1.8rem,3vw,2.4rem);font-weight:800;margin-bottom:16px}
+.cta-wrap p{color:var(--texto);margin-bottom:36px;font-size:1rem;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.65}
+.btn-cta-main{background:var(--verde);color:#fff;padding:16px 44px;border-radius:100px;font-family:var(--ff1);font-weight:700;font-size:.95rem;text-decoration:none;transition:all var(--tr);display:inline-block;cursor:none}
+.btn-cta-main:hover{background:var(--verde2);transform:translateY(-2px)}
+
+/* FOOTER */
+footer{padding:32px 60px;border-top:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between}
+footer p,footer a{font-size:.82rem;color:var(--gris3);text-decoration:none;transition:color var(--tr)}
+footer a:hover{color:var(--verde)}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(5,12,25,.75);backdrop-filter:blur(6px);z-index:2000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--az2);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:44px;max-width:680px;width:100%;max-height:88vh;overflow-y:auto;position:relative;transform:translateY(20px);transition:transform .3s ease;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+.overlay.open .modal{transform:translateY(0)}
+.modal-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.08);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:none;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background var(--tr)}
+.modal-close:hover{background:rgba(255,255,255,.16)}
+.modal-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(58,181,138,.12);border:1px solid rgba(58,181,138,.3);color:var(--verde);font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:5px 12px;border-radius:100px;margin-bottom:14px}
+.modal h3{font-family:var(--ff1);font-size:1.7rem;font-weight:800;margin-bottom:6px}
+.modal-claim{font-family:var(--ff1);font-size:1rem;color:var(--verde);margin-bottom:10px;font-weight:600}
+.modal-sub{font-size:.92rem;color:var(--texto);margin-bottom:32px;line-height:1.65}
+.modal-section{margin-bottom:28px}
+.modal-section-title{font-family:var(--ff1);font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gris3);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.06)}
+.modal-items{display:flex;flex-direction:column;gap:14px}
+.modal-item{display:flex;gap:14px;align-items:flex-start}
+.modal-item-ico{width:36px;height:36px;border-radius:10px;background:rgba(58,181,138,.1);border:1px solid rgba(58,181,138,.2);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.modal-item-txt h4{font-family:var(--ff1);font-size:.88rem;font-weight:700;color:#fff;margin-bottom:4px}
+.modal-item-txt p{font-size:.8rem;color:var(--gris3);line-height:1.6}
+.modal-cta{display:block;width:100%;padding:14px;border-radius:100px;background:var(--verde);color:#fff;font-family:var(--ff1);font-weight:700;font-size:.88rem;letter-spacing:.04em;text-align:center;text-decoration:none;border:none;cursor:none;transition:all var(--tr);margin-top:32px}
+.modal-cta:hover{background:var(--verde2);transform:translateY(-1px)}
+
+/* ANIMACIONES */
+.fade-in{animation:fadeUp .4s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:900px){
+  .planes-grid{grid-template-columns:1fr}
+  .sp-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  nav{padding:16px 20px}
+  .hero,.seccion,.cta-wrap{padding-left:20px;padding-right:20px}
+  .divisor{margin:0 20px}
+  footer{padding:24px 20px;flex-direction:column;gap:8px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div id="lc"></div>
+<div id="lt"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">egnd</a>
+  <a href="index.html" class="nav-back">Inicio</a>
+  <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="nav-cta">Agendar llamada</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-cont">
+    <div class="hero-tag">Para Pymes</div>
+    <h1>Las finanzas de<br>tu empresa, <span>en orden</span></h1>
+    <p class="hero-sub">Sabés que tu negocio tiene potencial. Pero los números no siempre acompañan. Nosotros nos encargamos de que tengas claridad financiera real para tomar mejores decisiones y crecer con control.</p>
+    <div class="hero-pills">
+      <span class="hero-pill">Sin jerga financiera</span>
+      <span class="hero-pill">Información en lenguaje de negocios</span>
+      <span class="hero-pill">Un equipo que conoce tu empresa</span>
+    </div>
+  </div>
+</section>
+
+<!-- PLANES -->
+<section class="seccion">
+  <div class="sec-tag">Servicio continuo</div>
+  <div class="sec-titulo">Tres niveles de acompañamiento</div>
+  <p class="sec-sub">Empezás donde tu empresa necesita y crecés con nosotros. Cada nivel incluye todo lo del anterior.</p>
+
+  <div class="planes-grid">
+
+    <!-- CLARIDAD -->
+    <div class="plan">
+      <div class="plan-header">
+        <div class="plan-nivel">Nivel 01</div>
+        <div class="plan-nombre">Claridad</div>
+        <div class="plan-claim">Empezá a ver tu negocio</div>
+      </div>
+      <div class="plan-body">
+        <p class="plan-target">Para empresas que nunca tuvieron información financiera organizada y quieren saber, por primera vez, cómo está su negocio de verdad.</p>
+        <ul class="plan-features">
+          <li><span class="dot"></span>Diagnóstico inicial de tu situación</li>
+          <li><span class="dot"></span>Resultado mensual claro — ganaste o perdiste</li>
+          <li><span class="dot"></span>Control de caja — sabés antes de quedarte corto</li>
+          <li><span class="dot"></span>Tablero visual actualizado cada mes</li>
+          <li><span class="dot"></span>Informe mensual en lenguaje de negocios</li>
+        </ul>
+        <div class="plan-btns">
+          <button class="btn-ver" onclick="abrirModal('claridad')">Ver qué incluye →</button>
+          <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="btn-llamada">Agendar llamada</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTROL -->
+    <div class="plan">
+      <div class="plan-header dest">
+        <div class="plan-nivel">Nivel 02</div>
+        <div class="plan-nombre">Control</div>
+        <div class="plan-claim">Tomá decisiones con información</div>
+      </div>
+      <div class="plan-body plan-dest">
+        <p class="plan-target">Para empresas que ya tienen algo de orden y quieren entender en profundidad qué está pasando y hacia dónde van.</p>
+        <ul class="plan-features">
+          <li class="heredado"><span class="dot"></span>Todo lo de Claridad</li>
+          <li><span class="dot"></span>Presupuesto anual armado junto a vos</li>
+          <li><span class="dot"></span>Proyecciones a 1 a 3 años</li>
+          <li><span class="dot"></span>Qué parte del negocio genera valor y cuál no</li>
+          <li><span class="dot"></span>Los indicadores que importan, seguidos mes a mes</li>
+          <li><span class="dot"></span>Dashboard con presupuesto vs. real</li>
+          <li><span class="dot"></span>Consultor asignado a tu empresa</li>
+        </ul>
+        <div class="plan-btns">
+          <button class="btn-ver" onclick="abrirModal('control')">Ver qué incluye →</button>
+          <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="btn-llamada">Agendar llamada</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIRECCIÓN -->
+    <div class="plan">
+      <div class="plan-header">
+        <div class="plan-nivel">Nivel 03</div>
+        <div class="plan-nombre">Dirección</div>
+        <div class="plan-claim">Tu área financiera completa</div>
+      </div>
+      <div class="plan-body">
+        <p class="plan-target">Para pymes que quieren crecer en serio y necesitan que alguien con experiencia tome las riendas financieras del negocio.</p>
+        <ul class="plan-features">
+          <li class="heredado"><span class="dot"></span>Todo lo de Control</li>
+          <li><span class="dot"></span>Proyección viva — se actualiza con la realidad cada mes</li>
+          <li><span class="dot"></span>Simulamos escenarios: qué pasa si algo cambia</li>
+          <li><span class="dot"></span>Te preparamos para el banco o inversores</li>
+          <li><span class="dot"></span>Dashboard ejecutivo completo</li>
+          <li><span class="dot"></span>Consultor con rol activo en tus decisiones</li>
+        </ul>
+        <div class="plan-btns">
+          <button class="btn-ver" onclick="abrirModal('direccion')">Ver qué incluye →</button>
+          <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="btn-llamada">Agendar llamada</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divisor"></div>
+
+<!-- SERVICIOS PUNTUALES -->
+<section class="seccion">
+  <div class="sec-tag">Servicios puntuales</div>
+  <div class="sec-titulo">Por proyecto, cuando lo necesitás</div>
+  <p class="sec-sub">Sin continuidad ni compromiso mensual. Entramos, hacemos el trabajo y te dejamos los resultados.</p>
+
+  <div class="sp-grid">
+
+    <div class="sp-card" onclick="abrirModal('diagnostico')">
+      <div class="sp-ico">🔍</div>
+      <div class="sp-nombre">Diagnóstico y plan de acción</div>
+      <p class="sp-desc">La metodología egnd para entender tu negocio de verdad. Relevamos, analizamos y construimos un modelo de crecimiento alineado con lo que querés lograr.</p>
+      <ul class="sp-items">
+        <li>Estado de resultados del último año</li>
+        <li>Análisis de márgenes, EBITDA y cashflow</li>
+        <li>Puntos de mejora detectados</li>
+        <li>Modelo de crecimiento proyectado</li>
+        <li>2 meses de trabajo · 6 reuniones</li>
+      </ul>
+      <span class="btn-sp">Ver más →</span>
+    </div>
+
+    <div class="sp-card" onclick="abrirModal('procesos')">
+      <div class="sp-ico">⚙️</div>
+      <div class="sp-nombre">Procesos administrativos</div>
+      <p class="sp-desc">Ordenamos los procesos internos de tu empresa para que la información fluya bien, el equipo tenga roles claros y nada dependa de una sola persona.</p>
+      <ul class="sp-items">
+        <li>Control de stock e inventario</li>
+        <li>Trazabilidad de información</li>
+        <li>Armado del equipo financiero y roles</li>
+        <li>Documentación completa de procesos</li>
+      </ul>
+      <span class="btn-sp">Ver más →</span>
+    </div>
+
+    <div class="sp-card" onclick="abrirModal('erp')">
+      <div class="sp-ico">💻</div>
+      <div class="sp-nombre">Implementación de sistema</div>
+      <p class="sp-desc">Trabajamos con Colppy y Odoo. Nos encargamos de la selección, configuración, migración de datos y capacitación del equipo.</p>
+      <ul class="sp-items">
+        <li>Selección entre Colppy u Odoo según tu negocio</li>
+        <li>Configuración y parametrización completa</li>
+        <li>Migración de datos históricos</li>
+        <li>Capacitación y soporte en el arranque</li>
+      </ul>
+      <span class="btn-sp">Ver más →</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-wrap">
+  <h2>¿No sabés por dónde empezar?</h2>
+  <p>Hablamos 30 minutos, entendemos tu situación y te recomendamos qué tiene más sentido para tu empresa hoy.</p>
+  <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="btn-cta-main">Agendar llamada gratuita →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="logo" style="font-size:1.3rem">egnd</a>
+  <p>© 2025 EGND Finance · Todos los derechos reservados</p>
+  <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13">contacto@egndfinance.com</a>
+</footer>
+
+<!-- OVERLAY MODAL -->
+<div class="overlay" id="overlay" onclick="cerrarSiOverlay(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="cerrarModal()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+// CURSOR
+(function(){
+  const c=document.getElementById('lc'),t=document.getElementById('lt');
+  let mx=-100,my=-100;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px'});
+  function a(){t.style.left=mx+'px';t.style.top=my+'px';requestAnimationFrame(a)}a();
+})();
+
+// DATOS MODALES
+const modales = {
+  claridad: {
+    tag: 'Nivel 01',
+    titulo: 'Claridad',
+    claim: 'Empezá a ver tu negocio',
+    sub: 'Para empresas que nunca tuvieron información financiera organizada. Entramos, ordenamos todo y te damos una imagen clara de dónde está tu negocio hoy.',
+    items: [
+      { ico:'🔎', titulo:'Diagnóstico inicial', desc:'Revisamos toda tu información financiera disponible, evaluamos su calidad y te decimos dónde estás parado.' },
+      { ico:'📊', titulo:'Resultado mensual (P&L)', desc:'Cada mes sabés cuánto ganaste, cuánto gastaste y cuál fue tu resultado real — sin ambigüedades.' },
+      { ico:'💧', titulo:'Control de caja', desc:'Controlamos entradas y salidas de dinero e identificamos tensiones de liquidez antes de que sean un problema.' },
+      { ico:'📱', titulo:'Tablero visual', desc:'Tus números en un dashboard actualizado cada mes. Sin abrir una sola planilla.' },
+      { ico:'📄', titulo:'Informe mensual', desc:'Un documento ejecutivo con los resultados del período, explicado en lenguaje claro para tomar decisiones.' },
+    ]
+  },
+  control: {
+    tag: 'Nivel 02',
+    titulo: 'Control',
+    claim: 'Tomá decisiones con información',
+    sub: 'Para empresas que ya tienen algo de orden y quieren entender en profundidad qué está pasando — y hacia dónde van. Incluye todo lo de Claridad.',
+    items: [
+      { ico:'📅', titulo:'Presupuesto anual', desc:'Armamos juntos el plan del año: ingresos esperados, estructura de costos y metas financieras concretas.' },
+      { ico:'📈', titulo:'Proyecciones a 1–3 años', desc:'Planificamos el crecimiento del negocio con números reales como base, no suposiciones.' },
+      { ico:'🔬', titulo:'Rentabilidad por área', desc:'Identificamos qué productos, servicios o áreas del negocio generan valor y cuáles drenan recursos.' },
+      { ico:'🎯', titulo:'Indicadores clave (KPIs)', desc:'Definimos los números que importan en tu negocio y los seguimos mes a mes para detectar desvíos a tiempo.' },
+      { ico:'📊', titulo:'Dashboard avanzado', desc:'Tablero con presupuesto vs. real, tendencias e indicadores de gestión. Todo en un lugar.' },
+      { ico:'👤', titulo:'Consultor asignado', desc:'Un profesional que conoce tu negocio en profundidad, disponible para consultas y reunión mensual de seguimiento.' },
+    ]
+  },
+  direccion: {
+    tag: 'Nivel 03',
+    titulo: 'Dirección',
+    claim: 'Tu área financiera completa',
+    sub: 'Para pymes que quieren crecer en serio. Nuestro equipo actúa como el área financiera de tu empresa, con participación activa en las decisiones que importan. Incluye todo lo de Control.',
+    items: [
+      { ico:'🔄', titulo:'Proyección viva', desc:'Las proyecciones se actualizan cada mes incorporando la realidad del negocio, no solo el plan original.' },
+      { ico:'🧪', titulo:'Simulación de escenarios', desc:'Simulamos qué pasa con tu negocio ante distintas situaciones: caída de ventas, aumento de costos, nueva inversión, expansión.' },
+      { ico:'🏦', titulo:'Preparación para banco o inversores', desc:'Te preparamos con información financiera sólida y presentable para acceder a crédito o presentarte ante quien sea.' },
+      { ico:'🖥️', titulo:'Dashboard ejecutivo', desc:'Proyecciones, escenarios y métricas estratégicas en un solo lugar, siempre actualizado.' },
+      { ico:'🤝', titulo:'Consultor con rol activo', desc:'Participación en tus decisiones financieras, reuniones ampliadas y soporte continuo. No somos proveedores, somos parte del equipo.' },
+    ]
+  },
+  diagnostico: {
+    tag: 'Servicio puntual · 2 meses · 6 reuniones',
+    titulo: 'Diagnóstico y plan de acción',
+    claim: 'La metodología egnd para entender tu negocio de verdad',
+    sub: 'Pedimos tu información, relevamos cómo está la empresa y construimos una imagen financiera completa. En base a eso, proyectamos un modelo de crecimiento alineado con lo que los socios quieren lograr.',
+    items: [
+      { ico:'📋', titulo:'Relevamiento de información', desc:'Te pedimos la información clave del negocio y trabajamos con lo que tenés — no hace falta que esté todo perfecto.' },
+      { ico:'📊', titulo:'Estado de resultados del último año', desc:'Armamos el P&L real del año: ingresos, costos, márgenes, EBITDA y cashflow. Probablemente la primera vez que lo ves así de claro.' },
+      { ico:'🔬', titulo:'Nuestra mirada sobre el negocio', desc:'Te damos nuestro punto de vista sobre el mercado en el que operás, tu modelo de ingresos, estructura de costos y dónde están los riesgos y oportunidades.' },
+      { ico:'⚠️', titulo:'Puntos de mejora detectados', desc:'Identificamos qué está frenando el crecimiento o comprimiendo los márgenes — sin vueltas.' },
+      { ico:'📈', titulo:'Modelo de crecimiento proyectado', desc:'Con todo eso, construimos un modelo financiero en Excel o plataforma que proyecta el negocio según las expectativas reales de los socios.' },
+      { ico:'🤝', titulo:'6 reuniones de trabajo', desc:'No es un informe que te mandamos por mail. Son 6 reuniones donde trabajamos juntos, discutimos los números y tomamos decisiones.' },
+    ]
+  },
+  procesos: {
+    tag: 'Servicio puntual',
+    titulo: 'Procesos administrativos',
+    claim: 'Orden interno para crecer sin perder el control',
+    sub: 'Cuando una empresa crece sin procesos definidos, la información se pierde, los errores se repiten y todo depende de una sola persona. Entramos, ordenamos y dejamos todo documentado.',
+    items: [
+      { ico:'📦', titulo:'Control de stock e inventario', desc:'Diseñamos el proceso para que siempre sepas cuánto tenés, dónde está y qué vale — sin contar físicamente cada vez.' },
+      { ico:'🔗', titulo:'Trazabilidad de información', desc:'Definimos cómo debe fluir la información dentro de la empresa: quién genera qué, quién lo aprueba y dónde queda registrado.' },
+      { ico:'👥', titulo:'Armado del equipo financiero', desc:'Definimos qué roles necesita el área financiera de tu empresa, qué hace cada uno y cómo se coordinan entre sí.' },
+      { ico:'📋', titulo:'Definición de roles y responsabilidades', desc:'Cada proceso tiene un dueño claro. Nada queda en el aire ni depende de que alguien "se acuerde".' },
+      { ico:'📁', titulo:'Documentación completa', desc:'Todo queda escrito, paso a paso, para que cualquier persona del equipo pueda ejecutarlo sin necesidad de preguntar.' },
+    ]
+  },
+  erp: {
+    tag: 'Servicio puntual',
+    titulo: 'Implementación de sistema',
+    claim: 'Del Excel al sistema, sin traumatismos',
+    sub: 'Trabajamos con Colppy y Odoo — dos plataformas probadas que se adaptan a distintos tamaños y complejidades. Nos encargamos de todo: elección, configuración, migración y capacitación.',
+    items: [
+      { ico:'🔎', titulo:'Selección del sistema correcto', desc:'Evaluamos tu operación y te recomendamos entre Colppy y Odoo según el tamaño de tu empresa, los procesos que tenés y el presupuesto disponible.' },
+      { ico:'⚙️', titulo:'Configuración a medida', desc:'Configuramos el sistema según la realidad de tu negocio: plan de cuentas, centros de costo, módulos, usuarios y niveles de acceso.' },
+      { ico:'📦', titulo:'Migración de datos', desc:'Pasamos la información histórica que tenés — en Excel, en otro sistema o donde sea — al nuevo entorno de forma ordenada y validada.' },
+      { ico:'🎓', titulo:'Capacitación al equipo', desc:'Entrenamos a las personas que van a usar el sistema hasta que lo manejen con seguridad. Sin manuales de 200 páginas.' },
+      { ico:'🛠️', titulo:'Soporte en el arranque', desc:'Nos quedamos disponibles durante las primeras semanas de operación real para resolver cualquier problema antes de que se vuelva un hábito.' },
+    ]
+  },
+};
+
+function abrirModal(id) {
+  const d = modales[id];
+  if (!d) return;
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-tag">${d.tag}</div>
+    <h3>${d.titulo}</h3>
+    <div class="modal-claim">${d.claim}</div>
+    <p class="modal-sub">${d.sub}</p>
+    <div class="modal-section">
+      <div class="modal-section-title">Qué incluye</div>
+      <div class="modal-items">
+        ${d.items.map(i=>`
+          <div class="modal-item">
+            <div class="modal-item-ico">${i.ico}</div>
+            <div class="modal-item-txt">
+              <h4>${i.titulo}</h4>
+              <p>${i.desc}</p>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="modal-cta">Hablar con un consultor →</a>
+  `;
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarModal() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function cerrarSiOverlay(e) {
+  if (e.target === document.getElementById('overlay')) cerrarModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModal(); });
+</script>
+</body>
+</html>

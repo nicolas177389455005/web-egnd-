@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGND · Para Startups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --az1:#0b1d35;--az2:#0d2240;--az3:#102d5a;--az4:#1a4a8a;
+  --acc:#f5c842;--acc2:#d9a800;
+  --cfo:#3ab5b0;--cfo2:#2e9690;
+  --fund:#c0504d;--fund2:#a03a38;
+  --labs:#2ecc9a;--labs2:#25b085;
+  --blanco:#fff;--gris3:#7a90a8;
+  --texto:#b8ccde;
+  --ff1:'Syne',sans-serif;--ff2:'DM Sans',sans-serif;--ffL:'Nunito',sans-serif;
+  --r:16px;--tr:.35s cubic-bezier(.25,.8,.25,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--az1);color:var(--blanco);font-family:var(--ff2);overflow-x:hidden;min-height:100vh}
+
+/* CURSOR */
+#lc{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 0 8px 3px rgba(255,255,255,.7),0 0 24px 6px rgba(255,255,255,.15);transform:translate(-50%,-50%)}
+#lt{position:fixed;top:0;left:0;pointer-events:none;z-index:9998;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);transform:translate(-50%,-50%);transition:left .1s ease,top .1s ease}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(11,29,53,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06)}
+.logo{font-family:var(--ffL);font-weight:700;font-size:1.8rem;color:#fff;text-decoration:none}
+.nav-back{font-family:var(--ff1);font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--texto);text-decoration:none;transition:color var(--tr)}
+.nav-back:hover{color:#fff}
+.nav-cta{background:#fff;color:var(--az1);padding:10px 22px;border-radius:100px;font-family:var(--ff1);font-weight:700;font-size:.85rem;letter-spacing:.04em;text-decoration:none;transition:all var(--tr)}
+.nav-cta:hover{background:#e8e8e8;transform:translateY(-1px)}
+
+/* HERO */
+.hero{padding:140px 60px 80px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 70% 40%,rgba(245,200,66,.1) 0%,transparent 70%),linear-gradient(160deg,var(--az1) 0%,#0d1f3c 100%);z-index:0}
+.hero-bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px}
+.hero-cont{position:relative;z-index:1;max-width:760px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.3);color:var(--acc);font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:8px 18px;border-radius:100px;margin-bottom:28px}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--acc)}
+.hero h1{font-family:var(--ff1);font-size:clamp(2.8rem,6vw,5rem);font-weight:800;line-height:1;letter-spacing:-.03em;margin-bottom:20px}
+.hero h1 span{color:var(--acc)}
+.hero-sub{font-size:1.1rem;font-weight:300;color:var(--texto);line-height:1.7;max-width:580px;margin-bottom:36px}
+.hero-pills{display:flex;flex-wrap:wrap;gap:10px}
+.hero-pill{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--texto);font-size:.82rem;padding:7px 16px;border-radius:100px}
+
+/* SECCION */
+.seccion{padding:80px 60px}
+.sec-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.25);color:var(--acc);font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:20px}
+.sec-titulo{font-family:var(--ff1);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:12px}
+.sec-sub{font-size:1rem;color:var(--texto);line-height:1.65;max-width:560px;margin-bottom:48px}
+
+/* PRODUCTOS GRID */
+.productos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
+
+/* PRODUCTO CARD */
+.prod{border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform var(--tr),box-shadow var(--tr)}
+.prod:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.prod-header{padding:32px 28px 24px;background:var(--az3);position:relative}
+.prod-header.cfo{background:linear-gradient(135deg,rgba(58,181,176,.25) 0%,rgba(58,181,176,.08) 100%);border-bottom:2px solid var(--cfo)}
+.prod-header.fund{background:linear-gradient(135deg,rgba(192,80,77,.25) 0%,rgba(192,80,77,.08) 100%);border-bottom:2px solid var(--fund)}
+.prod-header.labs{background:linear-gradient(135deg,rgba(46,204,154,.2) 0%,rgba(46,204,154,.06) 100%);border-bottom:2px solid var(--labs);opacity:.9}
+.prod-eyebrow{font-family:var(--ff1);font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:10px}
+.prod-nombre{font-family:var(--ffL);font-weight:700;font-size:1.6rem;letter-spacing:-.02em;margin-bottom:6px}
+.prod-nombre span{color:var(--acc)}
+.prod-claim{font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.45}
+.prod-header.dest .prod-claim{color:rgba(255,255,255,.8)}
+
+.prod-body{padding:26px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-top:none;flex:1;display:flex;flex-direction:column;border-radius:0 0 var(--r) var(--r)}
+.prod-target{font-size:.83rem;color:var(--gris3);line-height:1.55;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.06);font-style:italic}
+.prod-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:24px;flex:1}
+.prod-features li{display:flex;align-items:flex-start;gap:10px;font-size:.85rem;color:var(--texto);line-height:1.5}
+.prod-features li .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.prod.cfo-prod .dot{background:var(--cfo)}
+.prod.fund-prod .dot{background:var(--fund)}
+.prod.labs-prod .dot{background:var(--labs)}
+.prod-features li.dim{color:var(--gris3)}
+.prod-features li.dim .dot{background:rgba(255,255,255,.2)}
+
+.prod-btns{display:flex;flex-direction:column;gap:8px;margin-top:auto}
+.btn-ver{background:transparent;border:1.5px solid rgba(255,255,255,.2);color:#fff;padding:11px 16px;border-radius:100px;font-family:var(--ff1);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:none;transition:all var(--tr);width:100%}
+.btn-ver.cfo-btn{border-color:rgba(58,181,176,.4);color:var(--cfo)}
+.btn-ver.cfo-btn:hover{background:rgba(58,181,176,.1);border-color:var(--cfo)}
+.btn-ver.fund-btn{border-color:rgba(192,80,77,.4);color:var(--fund)}
+.btn-ver.fund-btn:hover{background:rgba(192,80,77,.1);border-color:var(--fund)}
+.btn-ver.labs-btn{border-color:rgba(46,204,154,.4);color:var(--labs)}
+.btn-ver.labs-btn:hover{background:rgba(46,204,154,.1);border-color:var(--labs)}
+.btn-llamada{padding:11px 16px;border-radius:100px;font-family:var(--ff1);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all var(--tr);width:100%;text-align:center;display:block;cursor:none;background:transparent}
+.btn-llamada.cfo-ll{border:1.5px solid rgba(58,181,176,.3);color:var(--cfo)}
+.btn-llamada.cfo-ll:hover{background:rgba(58,181,176,.08);border-color:var(--cfo)}
+.btn-llamada.fund-ll{border:1.5px solid rgba(192,80,77,.3);color:var(--fund)}
+.btn-llamada.fund-ll:hover{background:rgba(192,80,77,.08);border-color:var(--fund)}
+.btn-notify{background:var(--labs);color:#fff;border:none;padding:11px 16px;border-radius:100px;font-family:var(--ff1);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all var(--tr);width:100%;text-align:center;display:block;cursor:none}
+.btn-notify:hover{background:var(--labs2);transform:translateY(-1px)}
+
+/* DIVISOR */
+.divisor{height:1px;background:rgba(255,255,255,.06);margin:0 60px}
+
+/* CTA */
+.cta-wrap{padding:80px 60px;background:var(--az2);text-align:center}
+.cta-wrap h2{font-family:var(--ff1);font-size:clamp(1.8rem,3vw,2.4rem);font-weight:800;margin-bottom:16px}
+.cta-wrap p{color:var(--texto);margin-bottom:36px;font-size:1rem;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.65}
+.btn-cta-main{background:var(--acc);color:#000;padding:16px 44px;border-radius:100px;font-family:var(--ff1);font-weight:700;font-size:.95rem;text-decoration:none;transition:all var(--tr);display:inline-block;cursor:none}
+.btn-cta-main:hover{background:var(--acc2);transform:translateY(-2px)}
+
+/* FOOTER */
+footer{padding:32px 60px;border-top:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between}
+footer p,footer a{font-size:.82rem;color:var(--gris3);text-decoration:none;transition:color var(--tr)}
+footer a:hover{color:var(--acc)}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(5,12,25,.78);backdrop-filter:blur(6px);z-index:2000;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--az2);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:44px;max-width:700px;width:100%;max-height:88vh;overflow-y:auto;position:relative;transform:translateY(20px);transition:transform .3s ease;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+.overlay.open .modal{transform:translateY(0)}
+.modal-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.08);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:none;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background var(--tr)}
+.modal-close:hover{background:rgba(255,255,255,.16)}
+.modal-etiqueta{display:inline-flex;align-items:center;gap:6px;font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:5px 12px;border-radius:100px;margin-bottom:14px}
+.modal-etiqueta.cfo{background:rgba(58,181,176,.12);border:1px solid rgba(58,181,176,.3);color:var(--cfo)}
+.modal-etiqueta.fund{background:rgba(192,80,77,.12);border:1px solid rgba(192,80,77,.3);color:var(--fund)}
+.modal-etiqueta.labs{background:rgba(46,204,154,.12);border:1px solid rgba(46,204,154,.3);color:var(--labs)}
+.modal h3{font-family:var(--ff1);font-size:1.7rem;font-weight:800;margin-bottom:6px}
+.modal-claim{font-family:var(--ff1);font-size:1rem;color:var(--acc);font-weight:600;margin-bottom:10px}
+.modal-sub{font-size:.92rem;color:var(--texto);margin-bottom:32px;line-height:1.65}
+.modal-sec-title{font-family:var(--ff1);font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gris3);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.06)}
+.modal-items{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.modal-item{display:flex;gap:14px;align-items:flex-start}
+.modal-item-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.modal-item-ico.cfo{background:rgba(58,181,176,.1);border:1px solid rgba(58,181,176,.2)}
+.modal-item-ico.fund{background:rgba(192,80,77,.1);border:1px solid rgba(192,80,77,.2)}
+.modal-item-ico.labs{background:rgba(46,204,154,.1);border:1px solid rgba(46,204,154,.2)}
+.modal-item-txt h4{font-family:var(--ff1);font-size:.88rem;font-weight:700;color:#fff;margin-bottom:4px}
+.modal-item-txt p{font-size:.8rem;color:var(--gris3);line-height:1.6}
+.modal-planes{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.modal-plan{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px 18px}
+.modal-plan-nombre{font-family:var(--ff1);font-size:.8rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--cfo);margin-bottom:4px}
+.modal-plan-desc{font-size:.82rem;color:var(--gris3);line-height:1.55}
+.modal-cta{display:block;width:100%;padding:14px;border-radius:100px;font-family:var(--ff1);font-weight:700;font-size:.88rem;letter-spacing:.04em;text-align:center;text-decoration:none;border:none;cursor:none;transition:all var(--tr);margin-top:8px;color:#fff}
+.modal-cta.cfo-cta{background:var(--cfo)}
+.modal-cta.cfo-cta:hover{background:var(--cfo2);transform:translateY(-1px)}
+.modal-cta.fund-cta{background:var(--fund)}
+.modal-cta.fund-cta:hover{background:var(--fund2);transform:translateY(-1px)}
+.modal-cta.labs-cta{background:var(--labs)}
+.modal-cta.labs-cta:hover{background:var(--labs2);transform:translateY(-1px)}
+
+.badge-coming{display:inline-flex;align-items:center;gap:6px;background:rgba(46,204,154,.12);border:1px solid rgba(46,204,154,.25);color:var(--labs);font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:5px 12px;border-radius:100px;margin-bottom:16px}
+.badge-coming::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--labs);animation:pulse 1.5s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.coming-hero{text-align:center;padding:20px 0 32px}
+.coming-hero .big-ico{font-size:3rem;margin-bottom:16px}
+.coming-features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px}
+.coming-feat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 16px}
+.coming-feat-ico{font-size:1.1rem;margin-bottom:8px}
+.coming-feat h4{font-family:var(--ff1);font-size:.8rem;font-weight:700;margin-bottom:4px}
+.coming-feat p{font-size:.76rem;color:var(--gris3);line-height:1.5}
+.modal-dev-note{background:rgba(46,204,154,.07);border:1px solid rgba(46,204,154,.2);border-radius:12px;padding:16px 18px;font-size:.82rem;color:var(--texto);line-height:1.6;margin-bottom:20px;text-align:center}
+
+@media(max-width:960px){.productos-grid{grid-template-columns:1fr}}
+@media(max-width:600px){
+  nav{padding:16px 20px}
+  .hero,.seccion,.cta-wrap{padding-left:20px;padding-right:20px}
+  .divisor{margin:0 20px}
+  footer{padding:24px 20px;flex-direction:column;gap:8px;text-align:center}
+  .coming-features{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="lc"></div>
+<div id="lt"></div>
+
+<nav>
+  <a href="index.html" class="logo">egnd</a>
+  <a href="index.html" class="nav-back">Inicio</a>
+  <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="nav-cta">Agendar llamada</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-cont">
+    <div class="hero-tag">Para Startups</div>
+    <h1>Las finanzas que<br>tu startup <span>necesita escalar</span></h1>
+    <p class="hero-sub">Crecer rápido sin control financiero es el error más caro que puede cometer una startup. Nosotros ponemos el orden, las métricas y la estrategia para que puedas enfocarte en el producto y los inversores.</p>
+    <div class="hero-pills">
+      <span class="hero-pill">Modelo financiero desde cero</span>
+      <span class="hero-pill">Métricas para inversores</span>
+      <span class="hero-pill">Apoyo en fundraising</span>
+      <span class="hero-pill">Fractional CFO</span>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTOS -->
+<section class="seccion">
+  <div class="sec-tag">Nuestros productos</div>
+  <div class="sec-titulo">Tres productos, un ecosistema</div>
+  <p class="sec-sub">Desde el primer modelo financiero hasta levantar capital o automatizar tu análisis con IA. Podés entrar por cualquiera y combinarlos.</p>
+
+  <div class="productos-grid">
+
+    <!-- CFO -->
+    <div class="prod cfo-prod">
+      <div class="prod-header cfo">
+        <div class="prod-eyebrow">Servicio continuo</div>
+        <div class="prod-nombre">egnd <span style="color:var(--cfo)">cfo</span></div>
+        <div class="prod-claim">Tu estructura financiera, desde el día uno</div>
+      </div>
+      <div class="prod-body">
+        <p class="prod-target">Para startups que necesitan orden financiero, métricas claras y alguien que entienda el lenguaje de los inversores.</p>
+        <ul class="prod-features">
+          <li><span class="dot"></span>Modelo financiero y métricas clave (ARR, MRR, burn rate, runway)</li>
+          <li><span class="dot"></span>P&L y cashflow mensual</li>
+          <li><span class="dot"></span>Proyecciones y escenarios</li>
+          <li><span class="dot"></span>Dashboard actualizado</li>
+          <li><span class="dot"></span>Consultor asignado a tu empresa</li>
+          <li class="dim"><span class="dot"></span>Fractional CFO disponible</li>
+        </ul>
+        <div class="prod-btns">
+          <button class="btn-ver cfo-btn" onclick="abrirModal('cfo')">Ver planes →</button>
+          <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="btn-llamada cfo-ll">Agendar llamada</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FUNDRAISING -->
+    <div class="prod fund-prod">
+      <div class="prod-header fund">
+        <div class="prod-eyebrow">Servicio puntual</div>
+        <div class="prod-nombre">egnd <span style="color:var(--fund)">fundraising</span></div>
+        <div class="prod-claim">Del negocio al pitch, con números que se defienden solos</div>
+      </div>
+      <div class="prod-body">
+        <p class="prod-target">Para founders que están preparando una ronda o quieren tener todo listo antes de salir a buscar capital.</p>
+        <ul class="prod-features">
+          <li><span class="dot"></span>Diagnóstico financiero y estratégico</li>
+          <li><span class="dot"></span>Business plan y proyecciones</li>
+          <li><span class="dot"></span>Escenarios y análisis de sensibilidad</li>
+          <li><span class="dot"></span>Estrategia de financiamiento</li>
+          <li><span class="dot"></span>Valuación y cap table</li>
+          <li><span class="dot"></span>Pitch deck, one-pager y modelo financiero</li>
+        </ul>
+        <div class="prod-btns">
+          <button class="btn-ver fund-btn" onclick="abrirModal('fundraising')">Ver qué incluye →</button>
+          <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="btn-llamada fund-ll">Agendar llamada</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- LABS -->
+    <div class="prod labs-prod">
+      <div class="prod-header labs">
+        <div class="prod-eyebrow">Plataforma</div>
+        <div class="prod-nombre">egnd <span style="color:var(--labs)">labs</span></div>
+        <div class="prod-claim">Tu copiloto financiero con IA, disponible 24/7</div>
+      </div>
+      <div class="prod-body">
+        <div class="badge-coming">En desarrollo</div>
+        <p class="prod-target">Para founders que quieren construir su modelo financiero con ayuda de IA y practicar su pitch ante un VC virtual.</p>
+        <ul class="prod-features">
+          <li><span class="dot"></span>Armá tu modelo financiero guiado por IA</li>
+          <li><span class="dot"></span>Copiloto financiero siempre disponible</li>
+          <li><span class="dot"></span>Simulador de pitch con VC virtual</li>
+          <li><span class="dot"></span>Templates y frameworks de egnd</li>
+          <li class="dim"><span class="dot"></span>Próximamente disponible</li>
+        </ul>
+        <div class="prod-btns">
+          <button class="btn-ver labs-btn" onclick="abrirModal('labs')">Conocer más →</button>
+          <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="btn-notify">Avisame cuando esté listo</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-wrap">
+  <h2>¿No sabés por dónde empezar?</h2>
+  <p>Hablamos 30 minutos, entendemos en qué etapa está tu startup y te decimos qué tiene más sentido hoy.</p>
+  <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="btn-cta-main">Agendar llamada gratuita →</a>
+</div>
+
+<footer>
+  <a href="index.html" class="logo" style="font-size:1.3rem">egnd</a>
+  <p>© 2025 EGND Finance · Todos los derechos reservados</p>
+  <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13">contacto@egndfinance.com</a>
+</footer>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="cerrarSiOverlay(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="cerrarModal()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+// CURSOR
+(function(){
+  const c=document.getElementById('lc'),t=document.getElementById('lt');
+  let mx=-100,my=-100;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px'});
+  function a(){t.style.left=mx+'px';t.style.top=my+'px';requestAnimationFrame(a)}a();
+})();
+
+const modales = {
+
+  cfo: {
+    render: () => `
+      <div class="modal-etiqueta cfo">egnd cfo · Servicio continuo</div>
+      <h3>egnd cfo</h3>
+      <div class="modal-claim" style="color:var(--cfo)">Tu estructura financiera, desde el día uno</div>
+      <p class="modal-sub">Cuatro niveles de acompañamiento para startups en distintas etapas. Empezás donde estás y escalás con nosotros. Cada plan incluye todo lo del anterior.</p>
+      <div class="modal-sec-title">Los cuatro planes</div>
+      <div class="modal-planes">
+        <div class="modal-plan">
+          <div class="modal-plan-nombre">CAAS Reportes</div>
+          <div class="modal-plan-desc">Para startups que necesitan orden y visibilidad financiera por primera vez. Diagnóstico inicial, P&L mensual, seguimiento de caja, tablero Power BI básico e informe de gestión mensual.</div>
+        </div>
+        <div class="modal-plan">
+          <div class="modal-plan-nombre">CAAS Pro</div>
+          <div class="modal-plan-desc">Para startups que ya tienen información y necesitan control más fino. Suma presupuesto anual, proyecciones a 1–3 años, análisis de márgenes y rentabilidad, KPIs de gestión, tablero avanzado y consultor asignado.</div>
+        </div>
+        <div class="modal-plan">
+          <div class="modal-plan-nombre">CAAS Estratégico</div>
+          <div class="modal-plan-desc">Para startups en expansión. Forecast actualizado mes a mes, análisis de escenarios, preparación para inversores y tablero estratégico completo. El rol más cercano a un CFO.</div>
+        </div>
+        <div class="modal-plan">
+          <div class="modal-plan-nombre">Fractional CFO</div>
+          <div class="modal-plan-desc">Para startups en crecimiento acelerado. Participación en board y comités, estrategia financiera integral, acompañamiento en fundraising, interlocución directa con inversores y dedicación senior garantizada de los founders de egnd.</div>
+        </div>
+      </div>
+      <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="modal-cta cfo-cta">Hablar con un consultor →</a>
+    `
+  },
+
+  fundraising: {
+    render: () => `
+      <div class="modal-etiqueta fund">egnd fundraising · Servicio puntual</div>
+      <h3>egnd fundraising</h3>
+      <div class="modal-claim" style="color:var(--fund)">Del negocio al pitch, con números que se defienden solos</div>
+      <p class="modal-sub">Preparamos a tu startup para tomar decisiones de crecimiento con respaldo financiero: un plan claro, estructurado y defendible ante cualquier inversor.</p>
+      <div class="modal-sec-title">Las 6 etapas del servicio</div>
+      <div class="modal-items">
+        <div class="modal-item">
+          <div class="modal-item-ico fund">🔎</div>
+          <div class="modal-item-txt">
+            <h4>Etapa 1 · Diagnóstico financiero y estratégico</h4>
+            <p>Análisis del modelo de negocio, revisión de la información financiera disponible y definición de los objetivos de crecimiento.</p>
+          </div>
+        </div>
+        <div class="modal-item">
+          <div class="modal-item-ico fund">📊</div>
+          <div class="modal-item-txt">
+            <h4>Etapa 2 · Construcción del Business Plan</h4>
+            <p>Proyecciones de ingresos, costos y resultados. Cash flow proyectado con supuestos claros y documentados.</p>
+          </div>
+        </div>
+        <div class="modal-item">
+          <div class="modal-item-ico fund">🧪</div>
+          <div class="modal-item-txt">
+            <h4>Etapa 3 · Escenarios financieros</h4>
+            <p>Escenario base, optimista y conservador. Análisis de sensibilidad y evaluación de riesgos financieros.</p>
+          </div>
+        </div>
+        <div class="modal-item">
+          <div class="modal-item-ico fund">🎯</div>
+          <div class="modal-item-txt">
+            <h4>Etapa 4 · Estrategia de financiamiento</h4>
+            <p>Evaluamos inversión, deuda o bootstrapping. Definimos necesidades de capital y uso de fondos.</p>
+          </div>
+        </div>
+        <div class="modal-item">
+          <div class="modal-item-ico fund">💰</div>
+          <div class="modal-item-txt">
+            <h4>Etapa 5 · Valuación de la empresa</h4>
+            <p>Análisis de valuación, impacto de dilución y cap table. Solo cuando aplica a la etapa de la startup.</p>
+          </div>
+        </div>
+        <div class="modal-item">
+          <div class="modal-item-ico fund">📁</div>
+          <div class="modal-item-txt">
+            <h4>Etapa 6 · Materiales para terceros</h4>
+            <p>Información financiera estructurada y soporte para presentaciones a bancos, inversores o socios estratégicos.</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-sec-title">Entregables</div>
+      <div class="modal-items">
+        <div class="modal-item">
+          <div class="modal-item-ico fund">🖥️</div>
+          <div class="modal-item-txt"><h4>Pitch deck</h4><p>El deck que vas a llevar a inversores si hay ronda.</p></div>
+        </div>
+        <div class="modal-item">
+          <div class="modal-item-ico fund">📄</div>
+          <div class="modal-item-txt"><h4>One-pager</h4><p>Resumen ejecutivo de tu empresa y la oportunidad de inversión.</p></div>
+        </div>
+        <div class="modal-item">
+          <div class="modal-item-ico fund">📈</div>
+          <div class="modal-item-txt"><h4>Modelo financiero</h4><p>Archivo de trabajo con proyecciones, escenarios y supuestos documentados.</p></div>
+        </div>
+        <div class="modal-item">
+          <div class="modal-item-ico fund">📋</div>
+          <div class="modal-item-txt"><h4>Business Plan en PDF</h4><p>Documento ejecutivo completo, listo para compartir con inversores, bancos o socios.</p></div>
+        </div>
+      </div>
+      <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="modal-cta fund-cta">Empezar el proceso →</a>
+    `
+  },
+
+  labs: {
+    render: () => `
+      <div class="modal-etiqueta labs">egnd labs · En desarrollo</div>
+      <h3>egnd labs</h3>
+      <div class="modal-claim" style="color:var(--labs)">Tu copiloto financiero con IA, disponible 24/7</div>
+      <p class="modal-sub">El know-how de años de trabajo con startups empaquetado en una plataforma. Para que cualquier founder pueda construir su modelo financiero, entender sus números y practicar su pitch — con ayuda de IA.</p>
+      <div class="modal-dev-note">⚠️ egnd labs está actualmente en desarrollo. Lo que ves acá es la visión del producto. Si querés ser de los primeros en acceder, anotate abajo.</div>
+      <div class="modal-sec-title">Qué vas a poder hacer</div>
+      <div class="coming-features">
+        <div class="coming-feat">
+          <div class="coming-feat-ico">🤖</div>
+          <h4>Copiloto financiero</h4>
+          <p>Un asistente de IA que entiende tu negocio y responde preguntas financieras en tiempo real.</p>
+        </div>
+        <div class="coming-feat">
+          <div class="coming-feat-ico">📊</div>
+          <h4>Constructor de modelo</h4>
+          <p>Armá tu modelo financiero paso a paso con guías, templates y validación automática.</p>
+        </div>
+        <div class="coming-feat">
+          <div class="coming-feat-ico">🎤</div>
+          <h4>VC virtual</h4>
+          <p>Practicá tu pitch ante un inversor virtual que te hace las preguntas difíciles y te da feedback.</p>
+        </div>
+        <div class="coming-feat">
+          <div class="coming-feat-ico">🔬</div>
+          <h4>Análisis de escenarios</h4>
+          <p>Simulá distintos futuros para tu negocio y entendé el impacto de cada decisión.</p>
+        </div>
+        <div class="coming-feat">
+          <div class="coming-feat-ico">📋</div>
+          <h4>Frameworks de egnd</h4>
+          <p>Accedé a los mismos templates y metodologías que usamos con nuestros clientes.</p>
+        </div>
+        <div class="coming-feat">
+          <div class="coming-feat-ico">📈</div>
+          <h4>Métricas en tiempo real</h4>
+          <p>Dashboard con tus KPIs más importantes, actualizado automáticamente.</p>
+        </div>
+      </div>
+      <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="modal-cta labs-cta">Avisame cuando esté listo →</a>
+    `
+  }
+};
+
+function abrirModal(id) {
+  const m = modales[id];
+  if (!m) return;
+  document.getElementById('modal-content').innerHTML = m.render();
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarModal() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function cerrarSiOverlay(e) {
+  if (e.target === document.getElementById('overlay')) cerrarModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModal(); });
+</script>
+</body>
+</html>

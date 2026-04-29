@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGND · Diagnóstico Startup / Pyme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --az1:#0b1d35;--az2:#0d2240;--az3:#102d5a;--az4:#1a4a8a;
+    --acc:#ffffff;--acc2:#e8e8e8;
+    --blanco:#fff;--gris1:#eef0f3;--gris2:#b0bec8;--gris3:#7a90a8;
+    --texto:#b8ccde;
+    --ff1:'Syne',sans-serif;--ff2:'DM Sans',sans-serif;--ffL:'Nunito',sans-serif;
+    --r:16px;--tr:.35s cubic-bezier(.25,.8,.25,1);
+    --startup:#f5c842;
+    --pyme:#4a9eff;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100vh;background:var(--az1);color:var(--blanco);font-family:var(--ff2);overflow-x:hidden}
+
+  /* CURSOR */
+  #laser-cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 0 8px 3px rgba(255,255,255,.7),0 0 24px 6px rgba(255,255,255,.2);transform:translate(-50%,-50%)}
+  #laser-trail{position:fixed;top:0;left:0;pointer-events:none;z-index:9998;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);transform:translate(-50%,-50%);transition:left .1s ease,top .1s ease}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(11,29,53,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06)}
+  .logo{font-family:var(--ffL);font-weight:700;font-size:1.8rem;color:#fff;text-decoration:none;letter-spacing:-.5px}
+  .nav-cta{background:var(--acc);color:var(--az1);padding:10px 22px;border-radius:100px;font-family:var(--ff1);font-weight:700;font-size:.85rem;letter-spacing:.04em;text-decoration:none;transition:all var(--tr)}
+  .nav-cta:hover{background:var(--acc2);transform:translateY(-1px)}
+
+  /* BG */
+  .hero-bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 70% at 60% 40%,rgba(26,74,138,.18) 0%,transparent 70%),linear-gradient(160deg,var(--az1) 0%,#0d1f3c 100%);pointer-events:none}
+  .hero-bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px}
+
+  /* LAYOUT */
+  .page{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 24px 60px}
+  .wrapper{width:100%;max-width:640px}
+
+  /* TAG */
+  .s-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(168,184,204,.1);border:1px solid rgba(168,184,204,.25);color:#fff;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;border-radius:100px;margin-bottom:28px}
+  .s-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#fff}
+
+  .page-title{font-family:var(--ff1);font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:10px}
+  .page-sub{font-size:1rem;color:var(--texto);line-height:1.6;margin-bottom:40px}
+
+  /* PROGRESS */
+  .progress-bar{width:100%;height:2px;background:rgba(255,255,255,.1);border-radius:2px;margin-bottom:32px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--az4),#fff);border-radius:2px;transition:width .5s cubic-bezier(.25,.8,.25,1)}
+  .step-counter{font-family:var(--ff1);font-size:.72rem;color:var(--gris3);letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px}
+  .pregunta-txt{font-family:var(--ff1);font-size:clamp(1.2rem,2.5vw,1.5rem);font-weight:700;line-height:1.3;color:#fff;margin-bottom:24px}
+
+  /* OPCIONES ESTÁNDAR */
+  .opciones{display:flex;flex-direction:column;gap:10px}
+  .opcion{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.09);border-radius:var(--r);padding:15px 20px;font-family:var(--ff2);font-size:.93rem;color:#fff;cursor:none;transition:all var(--tr);text-align:left;line-height:1.4;width:100%}
+  .opcion:hover{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.08);transform:translateX(4px)}
+  .opcion.selected{border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.1)}
+
+
+
+  /* RESULTADO */
+  #resultado{display:none}
+  .res-tag{display:inline-flex;align-items:center;gap:8px;padding:7px 18px;border-radius:100px;font-family:var(--ff1);font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px}
+  .res-tag.startup{background:rgba(245,200,66,.15);color:var(--startup);border:1px solid rgba(245,200,66,.3)}
+  .res-tag.pyme{background:rgba(74,158,255,.15);color:var(--pyme);border:1px solid rgba(74,158,255,.3)}
+  .res-titulo{font-family:var(--ff1);font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:14px}
+  .res-desc{font-size:1rem;color:var(--texto);line-height:1.65;margin-bottom:36px;max-width:520px}
+
+  /* ANILLOS */
+  .anillos{display:flex;gap:32px;margin-bottom:36px}
+  .anillo-wrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .anillo-svg{width:88px;height:88px;transform:rotate(-90deg)}
+  .anillo-bg{fill:none;stroke:rgba(255,255,255,.08);stroke-width:6}
+  .anillo-fg{fill:none;stroke-width:6;stroke-linecap:round;stroke-dasharray:251.2;stroke-dashoffset:251.2;transition:stroke-dashoffset 1.3s cubic-bezier(.25,.8,.25,1)}
+  .anillo-fg.startup{stroke:var(--startup)}
+  .anillo-fg.pyme{stroke:var(--pyme)}
+  .anillo-pct{font-family:var(--ff1);font-size:1.4rem;font-weight:800}
+  .anillo-lbl{font-size:.7rem;color:var(--gris3);letter-spacing:.1em;text-transform:uppercase}
+
+  /* HIGHLIGHTS */
+  .highlights{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+  .highlight{padding:14px 18px;border-radius:12px;font-size:.88rem;line-height:1.55;border-left:3px solid}
+  .highlight.startup{background:rgba(245,200,66,.07);border-color:var(--startup);color:var(--texto)}
+  .highlight.pyme{background:rgba(74,158,255,.07);border-color:var(--pyme);color:var(--texto)}
+
+  /* BOTONES */
+  .btn-p{display:block;width:100%;padding:17px 36px;border-radius:100px;border:none;font-family:var(--ff1);font-weight:700;font-size:.95rem;letter-spacing:.04em;cursor:none;transition:all var(--tr);text-align:center;text-decoration:none;margin-bottom:12px}
+  .btn-p.startup{background:var(--startup);color:#000}
+  .btn-p.pyme{background:var(--pyme);color:#fff}
+  .btn-p:hover{opacity:.88;transform:translateY(-2px)}
+  .btn-restart{display:block;width:100%;padding:14px;border-radius:100px;background:transparent;border:1.5px solid rgba(255,255,255,.2);color:var(--gris3);font-family:var(--ff1);font-size:.88rem;cursor:none;transition:all var(--tr);text-align:center}
+  .btn-restart:hover{border-color:rgba(255,255,255,.5);color:#fff}
+
+  /* FADE */
+  .fade-in{animation:fadeUp .38s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  @media(max-width:540px){
+    nav{padding:16px 20px}
+    .opciones-identidad{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div id="laser-cursor"></div>
+<div id="laser-trail"></div>
+
+<nav>
+  <a href="index.html" class="logo">egnd</a>
+  <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="nav-cta">Agendar llamada</a>
+</nav>
+
+<div class="hero-bg"></div>
+
+<div class="page">
+  <div class="wrapper">
+    <div class="s-tag">Diagnóstico financiero</div>
+    <div class="page-title">¿Startup o Pyme?</div>
+    <p class="page-sub">Respondé 8 preguntas y te decimos qué solución de egnd se adapta mejor a tu empresa.</p>
+
+    <div id="cuestionario"></div>
+    <div id="resultado"></div>
+  </div>
+</div>
+
+<script>
+// CURSOR
+(function(){
+  const cur=document.getElementById('laser-cursor');
+  const tr=document.getElementById('laser-trail');
+  let mx=-100,my=-100;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+  function a(){tr.style.left=mx+'px';tr.style.top=my+'px';requestAnimationFrame(a)}
+  a();
+})();
+
+const preguntas=[
+  {
+    tipo:'estandar',
+    texto:'¿Con cuál de estas descripciones te identificás más?',
+    opciones:[
+      {texto:'Somos una empresa joven buscando escalar rápido y levantar capital',s:3,p:0},
+      {texto:'Tenemos un modelo innovador que aún estamos validando en el mercado',s:2,p:1},
+      {texto:'Somos una empresa consolidada con operación y clientes estables',s:0,p:3},
+      {texto:'Generamos ingresos predecibles y el foco está en la rentabilidad',s:0,p:3},
+    ]
+  },
+  {
+    tipo:'estandar',
+    texto:'¿Cuánto tiempo tiene tu empresa?',
+    opciones:[
+      {texto:'Menos de 1 año',s:3,p:0},
+      {texto:'Entre 1 y 3 años',s:2,p:1},
+      {texto:'Entre 3 y 10 años',s:1,p:2},
+      {texto:'Más de 10 años',s:0,p:3},
+    ]
+  },
+  {
+    tipo:'estandar',
+    texto:'¿Cuál es tu volumen de facturación anual?',
+    opciones:[
+      {texto:'Todavía no factura o es mínimo',s:3,p:0},
+      {texto:'Hasta USD 200k',s:2,p:1},
+      {texto:'Entre USD 200k y USD 1M',s:1,p:2},
+      {texto:'Más de USD 1M',s:0,p:3},
+    ]
+  },
+  {
+    tipo:'estandar',
+    texto:'¿Cuál es tu expectativa de crecimiento en los próximos 2 años?',
+    opciones:[
+      {texto:'Escalar 10x o más (hipercrecimiento)',s:3,p:0},
+      {texto:'Triplicar la operación',s:2,p:1},
+      {texto:'Crecer de forma sostenida, 20–50% anual',s:1,p:2},
+      {texto:'Mantener y consolidar lo actual',s:0,p:3},
+    ]
+  },
+  {
+    tipo:'estandar',
+    texto:'¿Buscás o pensás buscar financiamiento externo?',
+    opciones:[
+      {texto:'Sí, inversores o VCs — es central en nuestra estrategia',s:3,p:0},
+      {texto:'Posiblemente en el futuro (equity o deuda privada)',s:2,p:1},
+      {texto:'Financiamiento bancario o líneas de crédito',s:1,p:2},
+      {texto:'No, preferimos crecer con recursos propios',s:0,p:3},
+    ]
+  },
+  {
+    tipo:'estandar',
+    texto:'¿Cómo describirías tu modelo de negocio?',
+    opciones:[
+      {texto:'Innovador y escalable, sin precedentes claros en el mercado',s:3,p:0},
+      {texto:'Diferente en algún aspecto, pero el mercado ya existe',s:2,p:1},
+      {texto:'Probado, con foco en eficiencia operativa',s:1,p:2},
+      {texto:'Tradicional y consolidado en mi industria',s:0,p:3},
+    ]
+  },
+  {
+    tipo:'estandar',
+    texto:'¿Cómo está organizada hoy tu estructura financiera?',
+    opciones:[
+      {texto:'En construcción — sin métricas formales todavía',s:3,p:0},
+      {texto:'Básica — seguimos ingresos y gastos sin reportes',s:2,p:1},
+      {texto:'Tenemos P&L y algo de control de gestión',s:1,p:2},
+      {texto:'Completa — presupuesto, reportes y forecasting',s:0,p:3},
+    ]
+  },
+  {
+    tipo:'estandar',
+    texto:'¿Cuál es el desafío financiero más urgente hoy?',
+    opciones:[
+      {texto:'Armar el modelo financiero y definir métricas clave',s:3,p:0},
+      {texto:'Entender qué parte del negocio es realmente rentable',s:1,p:2},
+      {texto:'Gestionar el flujo de caja y la liquidez',s:0,p:3},
+      {texto:'Preparar información financiera profesional para inversores',s:3,p:0},
+    ]
+  },
+];
+
+let current=0;
+let answers=new Array(preguntas.length).fill(null);
+
+function render(){
+  const q=preguntas[current];
+  const pct=Math.round((current/preguntas.length)*100);
+  let opHTML='';
+
+  if(q.tipo==='estandar'){
+    opHTML=`<div class="opciones">${q.opciones.map((op,i)=>`
+      <button class="opcion${answers[current]===i?' selected':''}" onclick="elegir(${i})">${op.texto}</button>
+    `).join('')}</div>`;
+  }
+
+  document.getElementById('cuestionario').innerHTML=`
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="step-counter">Pregunta ${current+1} de ${preguntas.length}</div>
+    <div class="pregunta-txt fade-in">${q.texto}</div>
+    <div class="fade-in">${opHTML}</div>
+  `;
+}
+
+function elegir(i){
+  answers[current]=i;
+  render();
+  setTimeout(()=>{
+    if(current<preguntas.length-1){current++;render();}
+    else mostrarResultado();
+  },280);
+}
+
+function mostrarResultado(){
+  let sT=0,pT=0;
+  answers.forEach((ans,qi)=>{
+    if(ans!==null){sT+=preguntas[qi].opciones[ans].s;pT+=preguntas[qi].opciones[ans].p}
+  });
+  const tot=sT+pT||1;
+  const sPct=Math.round((sT/tot)*100);
+  const pPct=100-sPct;
+  const esS=sPct>=50;
+  const perfil=esS?'startup':'pyme';
+
+  const descs={
+    startup:'Tu empresa tiene el ADN de una startup: foco en el crecimiento acelerado, apertura al financiamiento externo y un modelo que busca escalar. Desde egnd te ayudamos a construir la estructura financiera que acompaña esa velocidad.',
+    pyme:'Tu empresa tiene la solidez de una pyme: modelo probado, operación consolidada y foco en la rentabilidad sostenida. Desde egnd te ayudamos a profesionalizar la gestión financiera para seguir creciendo con control.'
+  };
+
+  const hl=getHighlights(esS);
+
+  document.getElementById('cuestionario').style.display='none';
+  const res=document.getElementById('resultado');
+  res.style.display='block';
+  res.innerHTML=`
+    <div class="fade-in">
+      <div class="res-tag ${perfil}">Diagnóstico · ${esS?'Startup':'Pyme'}</div>
+      <div class="res-titulo">Sos una <span style="color:var(--${perfil})">${esS?'Startup':'Pyme'}</span></div>
+      <p class="res-desc">${descs[perfil]}</p>
+    </div>
+    <div class="anillos fade-in">
+      <div class="anillo-wrap">
+        <svg class="anillo-svg" viewBox="0 0 100 100">
+          <circle class="anillo-bg" cx="50" cy="50" r="40"/>
+          <circle class="anillo-fg startup" id="ring-s" cx="50" cy="50" r="40"/>
+        </svg>
+        <div class="anillo-pct" style="color:var(--startup)">${sPct}%</div>
+        <div class="anillo-lbl">Startup</div>
+      </div>
+      <div class="anillo-wrap">
+        <svg class="anillo-svg" viewBox="0 0 100 100">
+          <circle class="anillo-bg" cx="50" cy="50" r="40"/>
+          <circle class="anillo-fg pyme" id="ring-p" cx="50" cy="50" r="40"/>
+        </svg>
+        <div class="anillo-pct" style="color:var(--pyme)">${pPct}%</div>
+        <div class="anillo-lbl">Pyme</div>
+      </div>
+    </div>
+    <div class="highlights fade-in">
+      ${hl.map(h=>`<div class="highlight ${h.type}">${h.text}</div>`).join('')}
+    </div>
+    <a href="${perfil}.html" class="btn-p ${perfil} fade-in">Ver soluciones para ${esS?'Startups':'Pymes'} →</a>
+    <button class="btn-restart fade-in" onclick="restart()">Repetir diagnóstico</button>
+  `;
+
+  setTimeout(()=>{
+    const circ=2*Math.PI*40;
+    const rs=document.getElementById('ring-s');
+    const rp=document.getElementById('ring-p');
+    if(rs)rs.style.strokeDashoffset=circ-(circ*sPct/100);
+    if(rp)rp.style.strokeDashoffset=circ-(circ*pPct/100);
+  },80);
+}
+
+function getHighlights(esS){
+  const hl=[];
+  const a=answers;
+
+  if(a[0]!==null){
+    const texts=['Ves a tu empresa como una disrupción en potencia — las finanzas deben acompañar esa ambición.','Ya estás en modo fundraising: la información financiera tiene que ser impecable.','Tu operación ya está funcionando — el siguiente paso es hacer que funcione mejor.','Tus ingresos son predecibles: la eficiencia y el margen son el juego ahora.'];
+    const types=['startup','startup','pyme','pyme'];
+    hl.push({type:types[a[0]],text:texts[a[0]]});
+  }
+  if(a[4]!==null){
+    const texts=['Buscás inversores activamente: la presentación de información financiera es clave.','El financiamiento externo está en tu radar: conviene prepararse desde ya.','Usás deuda bancaria o líneas de crédito: la gestión del flujo es lo más importante.','Crecés con recursos propios: la rentabilidad y el control son tu norte.'];
+    const types=['startup','startup','pyme','pyme'];
+    hl.push({type:types[a[4]],text:texts[a[4]]});
+  }
+  if(a[5]!==null){
+    const texts=['Tu modelo es innovador: necesitás una estructura financiera que acompañe lo disruptivo.','Tenés diferenciación real: los números deben reflejar esa propuesta de valor.','Foco en eficiencia: el análisis de rentabilidad por línea es tu próximo paso.','Modelo consolidado: la gestión financiera profesional potencia lo que ya funciona.'];
+    const types=['startup','startup','pyme','pyme'];
+    hl.push({type:types[a[5]],text:texts[a[5]]});
+  }
+  if(a[7]!==null){
+    const texts=['Tu prioridad es armar el modelo financiero y definir métricas clave.','Necesitás entender qué parte del negocio es realmente rentable.','La gestión del flujo de caja es el fuego que hay que apagar primero.','Tu objetivo es presentar números profesionales para inversores.'];
+    const types=['startup','pyme','pyme','startup'];
+    hl.push({type:types[a[7]],text:texts[a[7]]});
+  }
+  return hl.slice(0,4);
+}
+
+function restart(){
+  current=0;
+  answers=new Array(preguntas.length).fill(null);
+  document.getElementById('resultado').style.display='none';
+  document.getElementById('cuestionario').style.display='block';
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
