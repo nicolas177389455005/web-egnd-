@@ -58,7 +58,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 60px;display:f
 
 .plan-header{padding:28px 24px 22px;background:var(--az3);position:relative}
 .plan-header.dest{background:var(--verde)}
+.plan-header-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.plan-header-left{display:flex;flex-direction:column}
 .plan-nivel{font-family:var(--ff1);font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:6px}
+.plan-precio{font-family:var(--ff1);font-size:1rem;font-weight:800;color:var(--verde);letter-spacing:.01em;text-align:right;white-space:nowrap;padding-top:4px}
+.plan-header.dest .plan-precio{color:#fff}
 .plan-nombre{font-family:var(--ff1);font-size:1.3rem;font-weight:800;letter-spacing:.02em;margin-bottom:6px}
 .plan-claim{font-size:.85rem;color:rgba(255,255,255,.7);line-height:1.4}
 .plan-header.dest .plan-claim{color:rgba(255,255,255,.85)}
@@ -181,19 +185,24 @@ footer a:hover{color:var(--verde)}
 
   <div class="planes-grid">
 
-    <!-- CLARIDAD -->
+    <!-- IA FINANCIERO -->
     <div class="plan">
       <div class="plan-header">
-        <div class="plan-nivel">Nivel 01</div>
-        <div class="plan-nombre">Claridad</div>
-        <div class="plan-claim">Empezá a ver tu negocio</div>
+        <div class="plan-header-top">
+          <div class="plan-header-left">
+            <div class="plan-nivel">IA</div>
+            <div class="plan-nombre">IA Financiero</div>
+          </div>
+          <div class="plan-precio">A partir de<br>USD 300 /mes</div>
+        </div>
+        <div class="plan-claim">Tu negocio empieza a hablarte solo</div>
       </div>
       <div class="plan-body">
-        <p class="plan-target">Para empresas que nunca tuvieron información financiera organizada y quieren saber, por primera vez, cómo está su negocio de verdad.</p>
+        <p class="plan-target">Para empresas que nunca tuvieron información financiera organizada. Aplicamos IA a tu operación para que, por primera vez, veas tu negocio de verdad.</p>
         <ul class="plan-features">
-          <li><span class="dot"></span>Diagnóstico inicial de tu situación</li>
+          <li><span class="dot"></span>IA aplicada a tu proceso financiero desde el día uno</li>
           <li><span class="dot"></span>Resultado mensual claro — ganaste o perdiste</li>
-          <li><span class="dot"></span>Control de caja — sabés antes de quedarte corto</li>
+          <li><span class="dot"></span>Control de caja con alertas automáticas antes de quedarte corto</li>
           <li><span class="dot"></span>Tablero visual actualizado cada mes</li>
           <li><span class="dot"></span>Informe mensual en lenguaje de negocios</li>
         </ul>
@@ -207,18 +216,18 @@ footer a:hover{color:var(--verde)}
     <!-- CONTROL -->
     <div class="plan">
       <div class="plan-header dest">
-        <div class="plan-nivel">Nivel 02</div>
+        <div class="plan-nivel">IA + Criterio Humano</div>
         <div class="plan-nombre">Control</div>
-        <div class="plan-claim">Tomá decisiones con información</div>
+        <div class="plan-claim">Tomá decisiones con información e inteligencia</div>
       </div>
       <div class="plan-body plan-dest">
-        <p class="plan-target">Para empresas que ya tienen algo de orden y quieren entender en profundidad qué está pasando y hacia dónde van.</p>
+        <p class="plan-target">Para empresas que ya tienen algo de orden y quieren entender en profundidad qué está pasando. La IA detecta patrones, un experto te dice qué hacer con eso.</p>
         <ul class="plan-features">
-          <li class="heredado"><span class="dot"></span>Todo lo de Claridad</li>
+          <li class="heredado"><span class="dot"></span>Todo lo de IA Financiero</li>
           <li><span class="dot"></span>Presupuesto anual armado junto a vos</li>
           <li><span class="dot"></span>Proyecciones a 1 a 3 años</li>
           <li><span class="dot"></span>Qué parte del negocio genera valor y cuál no</li>
-          <li><span class="dot"></span>Los indicadores que importan, seguidos mes a mes</li>
+          <li><span class="dot"></span>Los indicadores que importan, seguidos mes a mes con IA</li>
           <li><span class="dot"></span>Dashboard con presupuesto vs. real</li>
           <li><span class="dot"></span>Consultor asignado a tu empresa</li>
         </ul>
@@ -232,19 +241,19 @@ footer a:hover{color:var(--verde)}
     <!-- DIRECCIÓN -->
     <div class="plan">
       <div class="plan-header">
-        <div class="plan-nivel">Nivel 03</div>
+        <div class="plan-nivel">IA + Criterio + Ejecución</div>
         <div class="plan-nombre">Dirección</div>
         <div class="plan-claim">Tu área financiera completa</div>
       </div>
       <div class="plan-body">
-        <p class="plan-target">Para pymes que quieren crecer en serio y necesitan que alguien con experiencia tome las riendas financieras del negocio.</p>
+        <p class="plan-target">Para pymes que quieren crecer en serio. IA que automatiza, criterio que interpreta, y alguien con experiencia que ejecuta junto a vos y toma las riendas financieras del negocio.</p>
         <ul class="plan-features">
           <li class="heredado"><span class="dot"></span>Todo lo de Control</li>
-          <li><span class="dot"></span>Proyección viva — se actualiza con la realidad cada mes</li>
+          <li><span class="dot"></span>Proyección viva — la IA la actualiza con la realidad cada mes</li>
           <li><span class="dot"></span>Simulamos escenarios: qué pasa si algo cambia</li>
           <li><span class="dot"></span>Te preparamos para el banco o inversores</li>
           <li><span class="dot"></span>Dashboard ejecutivo completo</li>
-          <li><span class="dot"></span>Consultor con rol activo en tus decisiones</li>
+          <li><span class="dot"></span>CFO con rol activo en tus decisiones</li>
         </ul>
         <div class="plan-btns">
           <button class="btn-ver" onclick="abrirModal('direccion')">Ver qué incluye →</button>
