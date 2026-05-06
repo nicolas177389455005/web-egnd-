@@ -135,10 +135,11 @@ footer a:hover{color:var(--acc)}
 .modal-item-txt h4{font-family:var(--ff1);font-size:.88rem;font-weight:700;color:#fff;margin-bottom:4px}
 .modal-item-txt p{font-size:.8rem;color:var(--gris3);line-height:1.6}
 .modal-planes{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
-.modal-plan{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px 18px}
+.modal-plan{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px 18px;transition:all .2s ease}
+.modal-plan:hover{background:rgba(58,181,176,.07);border-color:rgba(58,181,176,.25);transform:translateY(-1px)}
 .modal-plan-nivel{font-family:var(--ff1);font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:3px}
-.modal-plan-precio{font-family:var(--ff1);font-size:.95rem;font-weight:800;color:var(--cfo);letter-spacing:.01em;text-align:right;white-space:nowrap}
-.modal-plan-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:4px}
+.modal-plan-header-js{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:4px}
+.modal-plan-precio{font-family:var(--ff1);font-size:.9rem;font-weight:800;color:var(--cfo);letter-spacing:.01em;text-align:right}
 .modal-plan-nombre{font-family:var(--ff1);font-size:.8rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--cfo);margin-bottom:4px}
 .modal-plan-desc{font-size:.82rem;color:var(--gris3);line-height:1.55}
 .modal-cta{display:block;width:100%;padding:14px;border-radius:100px;font-family:var(--ff1);font-weight:700;font-size:.88rem;letter-spacing:.04em;text-align:center;text-decoration:none;border:none;cursor:none;transition:all var(--tr);margin-top:8px;color:#fff}
@@ -321,30 +322,29 @@ const modales = {
       <p class="modal-sub">Cuatro niveles de acompañamiento para startups en distintas etapas. Empezás donde estás y escalás con nosotros. Cada plan incluye todo lo del anterior.</p>
       <div class="modal-sec-title">Los cuatro planes</div>
       <div class="modal-planes">
-        <div class="modal-plan">
-          <div class="modal-plan-header">
-            <div>
-              <div class="modal-plan-nivel">IA</div>
-              <div class="modal-plan-nombre">AI Controller</div>
-            </div>
-            <div class="modal-plan-precio">A partir de<br>USD 300 /mes</div>
-          </div>
-          <div class="modal-plan-desc">Para startups que necesitan orden y visibilidad financiera por primera vez. La IA toma el control de tu operación: P&L mensual automatizado, seguimiento de caja con alertas tempranas, tablero Power BI básico e informe de gestión mensual.</div>
+        <div class="modal-plan" onclick="abrirSubModal('ai-controller')" style="cursor:pointer">
+          <div class="modal-plan-nivel">IA</div>
+          <div class="modal-plan-header-js"><div><div class="modal-plan-nombre">AI Controller</div></div><div class="modal-plan-precio">A partir de USD 300 /mes</div></div>
+          <div class="modal-plan-desc">Para startups que necesitan orden y visibilidad financiera por primera vez. La IA toma el control de tu operación.</div>
+          <div style="margin-top:8px;font-family:var(--ff1);font-size:.7rem;font-weight:700;color:var(--cfo);letter-spacing:.08em">VER DETALLE →</div>
         </div>
-        <div class="modal-plan">
+        <div class="modal-plan" onclick="abrirSubModal('caas-pro')" style="cursor:pointer">
           <div class="modal-plan-nivel">IA + Criterio Humano</div>
           <div class="modal-plan-nombre">CaaS Pro</div>
-          <div class="modal-plan-desc">Para startups que ya tienen información y necesitan control más fino. La IA superficia los insights, tu consultor asignado te dice qué hacer con ellos. Suma presupuesto anual, proyecciones a 1–3 años, análisis de márgenes y rentabilidad, KPIs de gestión seguidos con IA mes a mes y tablero avanzado.</div>
+          <div class="modal-plan-desc">La IA superficia los insights, tu consultor asignado te dice qué hacer con ellos.</div>
+          <div style="margin-top:8px;font-family:var(--ff1);font-size:.7rem;font-weight:700;color:var(--cfo);letter-spacing:.08em">VER DETALLE →</div>
         </div>
-        <div class="modal-plan">
+        <div class="modal-plan" onclick="abrirSubModal('caas-estrategico')" style="cursor:pointer">
           <div class="modal-plan-nivel">IA + Criterio + Ejecución</div>
           <div class="modal-plan-nombre">CaaS Estratégico</div>
-          <div class="modal-plan-desc">Para startups en expansión. Forecast vivo actualizado por IA cada mes, análisis de escenarios, preparación para inversores con reporting listo para presentar y tablero estratégico completo. El rol más cercano a un CFO.</div>
+          <div class="modal-plan-desc">Forecast vivo actualizado por IA cada mes, análisis de escenarios y partner estratégico.</div>
+          <div style="margin-top:8px;font-family:var(--ff1);font-size:.7rem;font-weight:700;color:var(--cfo);letter-spacing:.08em">VER DETALLE →</div>
         </div>
-        <div class="modal-plan">
+        <div class="modal-plan" onclick="abrirSubModal('fractional-cfo')" style="cursor:pointer">
           <div class="modal-plan-nivel">IA + Criterio + Ejecución Full</div>
           <div class="modal-plan-nombre">Fractional CFO</div>
-          <div class="modal-plan-desc">Para startups en crecimiento acelerado. La IA automatiza la operación, tu CFO maneja la estrategia. Participación en board y comités, estrategia financiera integral, acompañamiento en fundraising de punta a punta, interlocución directa con inversores y dedicación senior garantizada de los founders de egnd.</div>
+          <div class="modal-plan-desc">La IA automatiza la operación, tu CFO maneja la estrategia y participa en el board.</div>
+          <div style="margin-top:8px;font-family:var(--ff1);font-size:.7rem;font-weight:700;color:var(--cfo);letter-spacing:.08em">VER DETALLE →</div>
         </div>
       </div>
       <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="modal-cta cfo-cta">Hablar con un consultor →</a>
@@ -469,6 +469,84 @@ const modales = {
     `
   }
 };
+
+const subModales = {
+  'ai-controller': {
+    nombre: 'AI Controller',
+    nivel: 'IA',
+    precio: 'A partir de USD 300 /mes',
+    desc: 'Para startups que necesitan orden y visibilidad financiera por primera vez. La IA toma el control de tu operación y te da visibilidad real desde el día uno.',
+    items: [
+      'IA aplicada a tu proceso financiero desde el día uno',
+      'P&L mensual claro y automatizado',
+      'Seguimiento de caja con alertas tempranas',
+      'Tablero Power BI básico',
+      'Informe de gestión mensual'
+    ]
+  },
+  'caas-pro': {
+    nombre: 'CaaS Pro',
+    nivel: 'IA + Criterio Humano',
+    precio: '',
+    desc: 'Para startups que ya tienen información y necesitan control más fino. La IA superficia los insights, tu consultor asignado te dice qué hacer con ellos.',
+    items: [
+      'Todo lo de AI Controller',
+      'Presupuesto anual armado junto a vos',
+      'Proyecciones a 1–3 años',
+      'Análisis de márgenes y rentabilidad',
+      'KPIs de gestión seguidos con IA mes a mes',
+      'Tablero avanzado',
+      'Consultor asignado a tu empresa'
+    ]
+  },
+  'caas-estrategico': {
+    nombre: 'CaaS Estratégico',
+    nivel: 'IA + Criterio + Ejecución',
+    precio: '',
+    desc: 'Para startups en expansión. Forecast vivo actualizado por IA cada mes, análisis de escenarios y un partner estratégico que te ayuda a tomar las decisiones que importan.',
+    items: [
+      'Todo lo de CaaS Pro',
+      'Forecast vivo actualizado por IA cada mes',
+      'Análisis de escenarios — qué pasa si algo cambia',
+      'Preparación para inversores con reporting listo para presentar',
+      'Tablero estratégico completo',
+      'Rol activo en tus decisiones clave'
+    ]
+  },
+  'fractional-cfo': {
+    nombre: 'Fractional CFO',
+    nivel: 'IA + Criterio + Ejecución Full',
+    precio: '',
+    desc: 'Para startups en crecimiento acelerado. La IA automatiza la operación, tu CFO maneja la estrategia, participa en el board y habla directamente con inversores.',
+    items: [
+      'Todo lo de CaaS Estratégico',
+      'Participación en board y comités',
+      'Estrategia financiera integral',
+      'Acompañamiento en fundraising de punta a punta',
+      'Interlocución directa con inversores',
+      'Disponibilidad on-demand'
+    ]
+  }
+};
+
+function abrirSubModal(planId) {
+  const p = subModales[planId];
+  if (!p) return;
+  const items = p.items.map(i => `<li><span class="dot" style="background:var(--cfo)"></span>${i}</li>`).join('');
+  const precioHtml = p.precio ? `<div style="font-family:var(--ff1);font-size:.9rem;font-weight:800;color:var(--cfo);margin-bottom:12px">${p.precio}</div>` : '';
+  document.getElementById('modal-content').innerHTML = `
+    <button onclick="abrirModal('cfo')" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:.8rem;cursor:pointer;padding:0;margin-bottom:20px;display:flex;align-items:center;gap:6px">← Volver a los planes</button>
+    <div class="modal-etiqueta cfo">${p.nivel}</div>
+    <h3>${p.nombre}</h3>
+    ${precioHtml}
+    <p class="modal-sub">${p.desc}</p>
+    <div class="modal-sec-title">Qué incluye</div>
+    <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:10px;margin-bottom:32px">
+      ${items}
+    </ul>
+    <a href="https://calendly.com/egnd_nicolas/demo?month=2026-04&date=2026-04-13" class="modal-cta cfo-cta">Agendar llamada →</a>
+  `;
+}
 
 function abrirModal(id) {
   const m = modales[id];
