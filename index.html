@@ -17,7 +17,8 @@
   --r:16px;--tr:.35s cubic-bezier(.25,.8,.25,1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+section{scroll-margin-top:88px}
 body{font-family:var(--ff2);background:var(--az1);color:var(--blanco);overflow-x:hidden}
 
 nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;transition:background var(--tr),box-shadow var(--tr)}
@@ -33,6 +34,9 @@ nav.scrolled{background:rgba(11,29,53,.97);backdrop-filter:blur(12px);box-shadow
 .nav-cta{background:var(--acc)!important;color:var(--az1)!important;padding:10px 22px;border-radius:100px;font-weight:700!important}
 .nav-cta:hover{background:var(--acc2)!important;transform:translateY(-1px)}
 .nav-cta::after{display:none!important}
+.nav-impacto{background:#ff7a1a!important;color:#fff!important;padding:10px 22px;border-radius:100px;font-weight:700!important;transition:all var(--tr)}
+.nav-impacto:hover{background:#e8690a!important;transform:translateY(-1px)}
+.nav-impacto::after{display:none!important}
 
 #inicio{min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;padding:140px 60px 80px}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 60% 40%,rgba(26,74,138,.2) 0%,transparent 70%),linear-gradient(160deg,var(--az1) 0%,#0d1f3c 100%);z-index:0}
@@ -130,7 +134,7 @@ section{padding:110px 60px}
 .eq-resena{font-size:.78rem;color:var(--texto);line-height:1.5;margin-top:8px;text-align:left}
 
 #logros{background:var(--az1)}
-.lg-cont{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:60px}
+.lg-cont{display:block;margin-top:60px;max-width:820px}
 .lg-nums{display:grid;grid-template-columns:1fr 1fr;gap:32px}
 .lg-item{border-left:3px solid var(--acc);padding-left:20px}
 .lg-num{font-family:var(--ff1);font-size:2.8rem;font-weight:800;line-height:1;color:#fff}
@@ -190,8 +194,14 @@ footer p{font-size:.82rem;color:var(--gris3)}
 .pais-name{font-size:10px;color:#666;font-weight:500;white-space:nowrap}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-.fi{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.fi{opacity:0;transform:translateY(16px);transition:opacity .45s ease,transform .45s ease}
 .fi.vis{opacity:1;transform:translateY(0)}
+
+/* Cards de perfil (Startup / Pyme): dejar clara la interactividad */
+.perfil-card{cursor:pointer}
+.perfil-card:hover{background:rgba(255,255,255,.08)!important;border-color:rgba(255,255,255,.35)!important;transform:translateY(-4px)}
+.perfil-card:hover .perfil-cta{opacity:1!important;text-decoration:underline;text-underline-offset:4px}
+.perfil-card:focus-visible{outline:2px solid var(--acc);outline-offset:4px}
 
 @media(max-width:1100px){.sv-grid{grid-template-columns:repeat(2,1fr)}.cl-grid{grid-template-columns:repeat(4,1fr)}.eq-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){
@@ -273,7 +283,8 @@ button:hover ~ #laser-cursor { width: 20px; height: 20px; background: #ffffff; }
     <li><a href="#nosotros">Nosotros</a></li>
     <li><a href="#casos">Casos de Éxito</a></li>
     <li><a href="#equipo">Equipo</a></li>
-    <li><a href="https://calendly.com/egnd_nicolas/reuinion-egnd-web" target="_blank" rel="noopener" class="nav-cta">Agendar llamada</a></li>
+    <li><a href="escalar-impacto.html" class="nav-impacto">Escalar el Impacto</a></li>
+    <li><a href="https://calendly.com/egnd_nicolas/reunion-egnd-web" target="_blank" rel="noopener" class="nav-cta">Agendar llamada</a></li>
   </ul>
 </nav>
 
@@ -285,7 +296,7 @@ button:hover ~ #laser-cursor { width: 20px; height: 20px; background: #ffffff; }
     <h1>Tu Partner en<br><span style="color:#ffffff">Finanzas</span></h1>
     <p class="hero-sub" style="font-size:clamp(1.4rem,2.5vw,1.9rem);font-weight:400;line-height:1.4;">Finanzas claras.<br>Mejores decisiones.<br>Empresas más valiosas.</p>
     <div class="hero-btns">
-      <a href="https://calendly.com/egnd_nicolas/reuinion-egnd-web" target="_blank" rel="noopener" class="btn-p">Agendar una llamada →</a>
+      <a href="https://calendly.com/egnd_nicolas/reunion-egnd-web" target="_blank" rel="noopener" class="btn-p">Agendar una llamada →</a>
       <a href="#servicios" class="btn-s">Ver servicios</a>
     </div>
     <div class="hero-nums">
@@ -370,7 +381,7 @@ button:hover ~ #laser-cursor { width: 20px; height: 20px; background: #ffffff; }
           <div style="font-family:var(--ff1);font-size:1.25rem;font-weight:800;margin-bottom:6px">Startup</div>
           <div style="font-size:.85rem;color:var(--texto);line-height:1.5">Crecimiento rápido,<br>inversores y escalabilidad</div>
         </div>
-        <div style="margin-top:4px;font-family:var(--ff1);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);opacity:.7;transition:opacity .3s">Ver propuesta →</div>
+        <div class="perfil-cta" style="margin-top:4px;font-family:var(--ff1);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);opacity:.85;transition:opacity .3s">Ver propuesta →</div>
       </a>
 
       <!-- Card Pyme -->
@@ -380,14 +391,14 @@ button:hover ~ #laser-cursor { width: 20px; height: 20px; background: #ffffff; }
           <div style="font-family:var(--ff1);font-size:1.25rem;font-weight:800;margin-bottom:6px">Pyme</div>
           <div style="font-size:.85rem;color:var(--texto);line-height:1.5">Orden, rentabilidad<br>y decisiones con datos</div>
         </div>
-        <div style="margin-top:4px;font-family:var(--ff1);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);opacity:.7;transition:opacity .3s">Ver propuesta →</div>
+        <div class="perfil-cta" style="margin-top:4px;font-family:var(--ff1);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);opacity:.85;transition:opacity .3s">Ver propuesta →</div>
       </a>
 
     </div>
 
     <!-- CTA secundario -->
     <div class="fi">
-      <p style="font-size:.9rem;color:var(--gris3);margin-bottom:16px">¿No sabés bien en cuál encadrás?</p>
+      <p style="font-size:.9rem;color:var(--gris3);margin-bottom:16px">¿No sabés bien en cuál encuadrás?</p>
       <a href="diagnostico.html" style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;padding:13px 28px;border-radius:100px;border:1.5px solid rgba(255,255,255,.2);font-family:var(--ff1);font-weight:600;font-size:.88rem;letter-spacing:.04em;text-decoration:none;transition:all .35s cubic-bezier(.25,.8,.25,1);" onmouseover="this.style.borderColor='rgba(255,255,255,.6)';this.style.color='#fff'" onmouseout="this.style.borderColor='rgba(255,255,255,.2)';this.style.color='#fff'">
         <span style="font-size:1rem">✦</span> Te ayudamos a descubrirlo
       </a>
@@ -537,25 +548,6 @@ button:hover ~ #laser-cursor { width: 20px; height: 20px; background: #ffffff; }
   <div class="s-tag fi">Desde 2019</div>
   <h2 class="s-title fi">Nuestros Logros</h2>
   <div class="lg-cont">
-    <div class="lg-nums fi">
-      <div class="lg-item"><div class="lg-num"><span class="counter" data-target="100" data-prefix="+">0</span></div><div class="lg-label">Startups que confían en nosotros</div></div>
-      <div class="lg-item num-paises">
-        <div class="lg-num"><span class="counter" data-target="8" data-prefix="+">0</span></div>
-        <div class="lg-label">Países de presencia</div>
-        <div class="banderas-tooltip banderas-tooltip--arriba">
-          <div class="flag-chip"><div class="flag">🇦🇷</div><div class="pais-name">Argentina</div></div>
-          <div class="flag-chip"><div class="flag">🇲🇽</div><div class="pais-name">México</div></div>
-          <div class="flag-chip"><div class="flag">🇧🇷</div><div class="pais-name">Brasil</div></div>
-          <div class="flag-chip"><div class="flag">🇨🇴</div><div class="pais-name">Colombia</div></div>
-          <div class="flag-chip"><div class="flag">🇺🇾</div><div class="pais-name">Uruguay</div></div>
-          <div class="flag-chip"><div class="flag">🇪🇸</div><div class="pais-name">España</div></div>
-          <div class="flag-chip"><div class="flag">🇺🇸</div><div class="pais-name">USA</div></div>
-          <div class="flag-chip"><div class="flag">🇮🇳</div><div class="pais-name">India</div></div>
-        </div>
-      </div>
-      <div class="lg-item"><div class="lg-num">USD <span class="counter" data-target="10" data-suffix="M+">0</span></div><div class="lg-label">Capital asesorado</div></div>
-      <div class="lg-item"><div class="lg-num"><span class="counter" data-target="6" data-prefix="+">0</span></div><div class="lg-label">Años de tracción</div></div>
-    </div>
     <div class="lg-sect fi">
       <h3>Sectores donde operamos</h3>
       <div class="sect-bar"><div class="sect-info"><span>SaaS</span><span>21.8%</span></div><div class="sect-prog"><div class="sect-fill" data-w="21.8"></div></div></div>
@@ -665,35 +657,37 @@ button:hover ~ #laser-cursor { width: 20px; height: 20px; background: #ffffff; }
   <div class="cta-cont fi">
     <h2>¿Listo para tener finanzas claras?</h2>
     <p>Agendá una llamada con nuestro equipo y empezamos a trabajar juntos en profesionalizar tu función financiera.</p>
-    <a href="https://calendly.com/egnd_nicolas/reuinion-egnd-web" target="_blank" rel="noopener" class="btn-p">Agendar una llamada →</a>
+    <a href="https://calendly.com/egnd_nicolas/reunion-egnd-web" target="_blank" rel="noopener" class="btn-p">Agendar una llamada →</a>
   </div>
 </section>
 
 <footer>
   <a href="#inicio" class="ft-logo">egnd</a>
-  <p>© 2025 egnd · Finanzas claras. Mejores decisiones.</p>
+  <p>© <span id="ft-year"></span> egnd · Finanzas claras. Mejores decisiones.</p>
   <div class="ft-links">
     <a href="#servicios">Servicios</a>
     <a href="#nosotros">Nosotros</a>
     <a href="#casos">Casos</a>
-    <a href="#contacto">Contacto</a>
+    <a href="https://calendly.com/egnd_nicolas/reunion-egnd-web" target="_blank" rel="noopener">Contacto</a>
   </div>
 </footer>
 
 <script>
 function animarContador(el) {
-  const target = parseInt(el.dataset.target);
+  const target = parseInt(el.dataset.target, 10);
   const prefix = el.dataset.prefix || '';
   const suffix = el.dataset.suffix || '';
-  const steps = 40;
-  const ms = 1500 / steps;
-  let current = 0;
-  const inc = target / steps;
-  const t = setInterval(() => {
-    current += inc;
-    if (current >= target) { current = target; clearInterval(t); }
-    el.textContent = prefix + Math.round(current) + suffix;
-  }, ms);
+  const duration = 1200;
+  const start = performance.now();
+  function step(now) {
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const current = Math.round(target * eased);
+    el.textContent = prefix + current + suffix;
+    if (t < 1) requestAnimationFrame(step);
+    else el.textContent = prefix + target + suffix;
+  }
+  requestAnimationFrame(step);
 }
 
 const obsCounter = new IntersectionObserver((entries) => {
@@ -702,10 +696,32 @@ const obsCounter = new IntersectionObserver((entries) => {
       entry.target.querySelectorAll('.counter').forEach(el => {
         if (!el.dataset.done) { el.dataset.done = '1'; animarContador(el); }
       });
+      obsCounter.unobserve(entry.target);
     }
   });
-}, { threshold: 0.3 });
+}, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
 document.querySelectorAll('.hero-nums, .lg-nums').forEach(el => obsCounter.observe(el));
+
+// Safety net: si por cualquier razón el contador quedó a mitad de camino
+// (pestaña en background, animación interrumpida), fijamos el valor final.
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.querySelectorAll('.counter').forEach(el => {
+      const target = parseInt(el.dataset.target, 10);
+      if (!Number.isFinite(target)) return;
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const currentNum = parseInt((el.textContent || '').replace(/\D/g, ''), 10);
+      if (!el.dataset.done || currentNum !== target) {
+        el.dataset.done = '1';
+        el.textContent = prefix + target + suffix;
+      }
+    });
+  }, 2500);
+});
+
+const yearEl = document.getElementById('ft-year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 
 const nav = document.getElementById('navbar');
@@ -713,9 +729,12 @@ window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY
 
 const obs = new IntersectionObserver((entries) => {
   entries.forEach((e, i) => {
-    if (e.isIntersecting) setTimeout(() => e.target.classList.add('vis'), i * 80);
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('vis'), i * 40);
+      obs.unobserve(e.target);
+    }
   });
-}, { threshold: 0.1 });
+}, { threshold: 0.05, rootMargin: '0px 0px -5% 0px' });
 document.querySelectorAll('.fi').forEach(el => obs.observe(el));
 
 const obs2 = new IntersectionObserver((entries) => {

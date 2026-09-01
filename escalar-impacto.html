@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGND · Escalar el Impacto</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --az1:#0b1d35;--az2:#0d2240;--az3:#102d5a;--az4:#1a4a8a;
+  --nar:#ff7a1a;--nar2:#e8690a;
+  --blanco:#fff;--gris1:#eef0f3;--gris3:#7a90a8;
+  --texto:#b8ccde;
+  --ff1:'Syne',sans-serif;--ff2:'DM Sans',sans-serif;--ffL:'Nunito',sans-serif;
+  --r:16px;--tr:.35s cubic-bezier(.25,.8,.25,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--az1);color:var(--blanco);font-family:var(--ff2);overflow-x:hidden;min-height:100vh}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(11,29,53,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06)}
+.logo{font-family:var(--ffL);font-weight:700;font-size:1.8rem;color:#fff;text-decoration:none}
+.nav-back{font-family:var(--ff1);font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--texto);text-decoration:none;transition:color var(--tr)}
+.nav-back:hover{color:#fff}
+@media(max-width:768px){nav{padding:16px 24px}}
+
+/* GATE */
+#gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:140px 24px 60px;position:relative;overflow:hidden}
+#gate::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 25% 20%,rgba(255,122,26,.12) 0%,transparent 70%),linear-gradient(160deg,var(--az1) 0%,#0d1f3c 100%);z-index:0}
+.gate-card{position:relative;z-index:1;width:100%;max-width:420px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:44px 36px;backdrop-filter:blur(10px)}
+.gate-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,122,26,.12);border:1px solid rgba(255,122,26,.3);color:var(--nar);font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:7px 16px;border-radius:100px;margin-bottom:22px}
+.gate-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--nar)}
+.gate-card h1{font-family:var(--ff1);font-size:1.7rem;font-weight:800;margin-bottom:10px;line-height:1.2}
+.titulo-conlogo{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.titulo-conlogo img{height:34px;width:auto;display:block}
+#contenido .titulo-conlogo img{height:42px}
+.gate-card p.sub{color:var(--texto);font-size:.92rem;margin-bottom:28px;line-height:1.5}
+.campo{margin-bottom:16px}
+.campo label{display:block;font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--texto);margin-bottom:6px}
+.campo input{width:100%;padding:13px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#fff;font-family:var(--ff2);font-size:.95rem;outline:none;transition:border-color var(--tr)}
+.campo input:focus{border-color:var(--nar)}
+.btn-nar{width:100%;background:var(--nar);color:#fff;border:none;padding:14px;border-radius:100px;font-family:var(--ff1);font-weight:700;font-size:.95rem;letter-spacing:.03em;cursor:pointer;transition:all var(--tr);margin-top:8px}
+.btn-nar:hover{background:var(--nar2);transform:translateY(-2px)}
+#gate-error{color:#ff6b6b;font-size:.85rem;margin-top:14px;min-height:1.2em;text-align:center}
+
+/* CONTENIDO */
+#contenido{display:none;padding:140px 60px 80px;position:relative;max-width:880px;margin:0 auto}
+.cnt-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,122,26,.12);border:1px solid rgba(255,122,26,.3);color:var(--nar);font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:7px 16px;border-radius:100px;margin-bottom:20px}
+#contenido h1{font-family:var(--ff1);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;margin-bottom:12px}
+#contenido p.sub{color:var(--texto);font-size:1rem;max-width:640px;margin-bottom:40px;line-height:1.6}
+.logout-bar{display:flex;justify-content:flex-end;margin-bottom:24px}
+.logout-bar button{background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--texto);padding:8px 18px;border-radius:100px;font-family:var(--ff1);font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all var(--tr)}
+.logout-bar button:hover{border-color:var(--nar);color:#fff}
+
+/* MODULOS (accordion) */
+#modulos{display:flex;flex-direction:column;gap:14px}
+.modulo{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);overflow:hidden}
+.modulo>summary{list-style:none;cursor:pointer;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.modulo>summary::-webkit-details-marker{display:none}
+.modulo-tit{display:flex;flex-direction:column;gap:4px}
+.modulo-tit .num{font-family:var(--ff1);font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--nar)}
+.modulo-tit .nom{font-family:var(--ff1);font-size:1.05rem;font-weight:700}
+.modulo-chev{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform var(--tr)}
+.modulo[open]>summary .modulo-chev{transform:rotate(180deg)}
+.modulo-body{padding:0 24px 20px;display:flex;flex-direction:column;gap:2px}
+
+.item{border-top:1px solid rgba(255,255,255,.06)}
+.item>summary{list-style:none;cursor:pointer;padding:14px 4px;display:flex;align-items:center;gap:12px}
+.item>summary::-webkit-details-marker{display:none}
+.item>summary::before{content:'▸';color:var(--nar);font-size:.8rem;transition:transform var(--tr)}
+.item[open]>summary::before{transform:rotate(90deg)}
+.item-nom{font-size:.95rem;font-weight:500}
+.item-body{padding:0 4px 18px 24px}
+.item-body video{width:100%;max-width:640px;display:block;background:#000;border-radius:10px;aspect-ratio:16/9}
+.item-body .yt-wrap{position:relative;width:100%;max-width:640px;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000}
+.item-body .yt-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.item-empty{color:var(--texto);font-size:.85rem;font-style:italic;padding:10px 0 4px}
+.proximamente{max-width:640px;padding:28px 22px;border:1px dashed rgba(255,255,255,.18);border-radius:10px;text-align:center;color:var(--texto);font-size:.9rem}
+.proximamente b{display:block;color:var(--nar);font-family:var(--ff1);font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+
+@media(max-width:768px){#contenido{padding:120px 24px 60px}.modulo>summary{padding:16px 18px}.modulo-body{padding:0 18px 16px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">egnd</a>
+  <a href="index.html" class="nav-back">← Volver al sitio</a>
+</nav>
+
+<!-- GATE DE ACCESO -->
+<section id="gate">
+  <div class="gate-card">
+    <div class="gate-tag">Acceso privado</div>
+    <div class="titulo-conlogo"><h1>Escalar el Impacto</h1><img src="mayma-logo.png" alt="Mayma · Humanidad Emprendedora"></div>
+    <p class="sub">Contenido exclusivo para clientes de egnd. Ingresá con las credenciales que te compartimos.</p>
+    <form id="gate-form" autocomplete="off">
+      <div class="campo">
+        <label for="usr">Usuario</label>
+        <input type="text" id="usr" autocomplete="username" required>
+      </div>
+      <div class="campo">
+        <label for="pwd">Contraseña</label>
+        <input type="password" id="pwd" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn-nar">Ingresar →</button>
+      <p id="gate-error"></p>
+    </form>
+  </div>
+</section>
+
+<!-- CONTENIDO PROTEGIDO -->
+<section id="contenido">
+  <div class="logout-bar"><button id="btn-logout">Cerrar sesión</button></div>
+  <div class="cnt-tag">Contenido exclusivo</div>
+  <div class="titulo-conlogo"><h1>Escalar el Impacto</h1><img src="mayma-logo.png" alt="Mayma · Humanidad Emprendedora"></div>
+  <p class="sub">Programa de armado del Financial Plan. 11 módulos con los videos que preparó egnd.</p>
+  <div id="modulos"></div>
+</section>
+
+<script>
+/* ============================================================
+   ACCESO — gate simple del lado del cliente.
+   OJO: esto NO es seguridad real (usuario y contraseña quedan
+   visibles en este mismo archivo). Sirve para filtrar el acceso
+   casual de gente con el link, no para proteger información
+   sensible de verdad.
+
+   Para cambiar el usuario/contraseña: editá las dos líneas de
+   abajo (USUARIO y CLAVE).
+   ============================================================ */
+const USUARIO = "mayma";
+const CLAVE   = "escalar2026";
+const SESSION_KEY = "egnd_impacto_ok";
+
+/* ============================================================
+   MÓDULOS Y VIDEOS — Financial Plan (11 módulos)
+
+   Para agregar/reemplazar un video:
+   1) Copiá el archivo .mp4 a la carpeta "videos/" al lado de
+      este archivo, con el mismo nombre que aparece en "archivo".
+   2) Si el nombre no coincide, simplemente editá el valor de
+      "archivo" acá abajo. El resto (acordeón, reproductor) se
+      arma solo.
+   ============================================================ */
+const MODULOS = [
+  { titulo: "Modelo de Negocio", items: [
+    { titulo: "Introducción Modelo de Negocio", archivo: "videos/m01-introduccion-modelo-de-negocio.mp4", youtubeId: "gL9iDZinLj8" },
+    { titulo: "Estructura Canvas", archivo: "videos/m01-estructura-canvas.mp4", youtubeId: "btJLMOnE6Y8" },
+    { titulo: "Estructura de Pricing", archivo: "videos/m01-estructura-de-pricing.mp4", youtubeId: "TdLMN0Z4kXs" },
+    { titulo: "Product Market Fit", archivo: "videos/m01-product-market-fit.mp4", youtubeId: "r6rGoOIl-N4" },
+  ]},
+  { titulo: "Mercado Objetivo", items: [
+    { titulo: "Introducción Mercado Objetivo", archivo: "videos/m02-introduccion-mercado-objetivo.mp4", youtubeId: "dAXXodo2XEc" },
+    { titulo: "TAM SAM SOM", archivo: "videos/m02-tam-sam-som.mp4", youtubeId: "qF6x63L0P9M" },
+    { titulo: "Benchmark", archivo: "videos/m02-benchmark.mp4", youtubeId: "7YiFD4G983I" },
+  ]},
+  { titulo: "Proyecciones de Venta", items: [
+    { titulo: "Introducción Proyecciones de Venta", archivo: "videos/m03-introduccion-proyecciones-de-venta.mp4", youtubeId: "pCi07zC-q_8" },
+    { titulo: "Supuestos de Venta", archivo: "videos/m03-supuestos-de-venta.mp4", youtubeId: "tAJj768ExyA" },
+    { titulo: "Proyección", archivo: "videos/m03-proyeccion.mp4", youtubeId: "3yJE1Gf9_jM" },
+  ]},
+  { titulo: "Gastos de Estructura", items: [
+    { titulo: "Introducción Gastos de Estructura", archivo: "videos/m04-introduccion-gastos-de-estructura.mp4", youtubeId: "vxjfaX9Jy2E" },
+    { titulo: "Headcount", archivo: "videos/m04-headcount.mp4", youtubeId: "tl1f0bEJu2c" },
+    { titulo: "Marketing & IT", archivo: "videos/m04-marketing-it.mp4", youtubeId: "_abJvUNKJvE" },
+    { titulo: "Go To Market", archivo: "videos/m04-go-to-market.mp4", youtubeId: "rK_jkwJpdrU" },
+  ]},
+  { titulo: "CAPEX", items: [
+    { titulo: "CAPEX", archivo: "videos/m05-capex.mp4", youtubeId: "" },
+  ]},
+  { titulo: "Amortización y Depreciación", items: [
+    { titulo: "Amortización y Depreciación", archivo: "videos/m06-amortizacion-y-depreciacion.mp4", youtubeId: "" },
+  ]},
+  { titulo: "Estados Financieros", items: [
+    { titulo: "Estado de Resultados (P&L)", archivo: "videos/m07-estado-de-resultados.mp4", youtubeId: "" },
+    { titulo: "Flujo de Fondos (Cashflow)", archivo: "videos/m07-flujo-de-fondos.mp4", youtubeId: "" },
+    { titulo: "Balance (Balance Sheet)", archivo: "videos/m07-balance.mp4", youtubeId: "" },
+  ]},
+  { titulo: "Ratios", items: [
+    { titulo: "CAC · LTV · Churn", archivo: "videos/m08-cac-ltv-churn.mp4", youtubeId: "" },
+    { titulo: "Ratios para SaaS", archivo: "videos/m08-ratios-para-saas.mp4", youtubeId: "" },
+    { titulo: "Ratios Empresas B2B", archivo: "videos/m08-ratios-empresas-b2b.mp4", youtubeId: "" },
+    { titulo: "Ratios e-Commerce", archivo: "videos/m08-ratios-ecommerce.mp4", youtubeId: "" },
+    { titulo: "Ratios Marketplace", archivo: "videos/m08-ratios-marketplace.mp4", youtubeId: "" },
+  ]},
+  { titulo: "Necesidad y Uso de Fondos", items: [
+    { titulo: "Necesidad y Uso de Fondos", archivo: "videos/m09-necesidad-y-uso-de-fondos.mp4", youtubeId: "" },
+  ]},
+  { titulo: "Fuentes de Financiamiento", items: [
+    { titulo: "Fuentes de Financiamiento", archivo: "videos/m10-fuentes-de-financiamiento.mp4", youtubeId: "" },
+  ]},
+  { titulo: "Materiales para el Inversor", items: [
+    { titulo: "Materiales para el Inversor", archivo: "videos/m11-materiales-para-el-inversor.mp4", youtubeId: "" },
+  ]},
+];
+
+function renderModulos(){
+  const cont = document.getElementById('modulos');
+  cont.innerHTML = '';
+  MODULOS.forEach((mod, i) => {
+    const numStr = String(i + 1).padStart(2, '0');
+    const det = document.createElement('details');
+    det.className = 'modulo';
+    if (i === 0) det.open = true;
+
+    const summary = document.createElement('summary');
+    summary.innerHTML = `
+      <div class="modulo-tit">
+        <span class="num">Módulo ${numStr}</span>
+        <span class="nom">${mod.titulo}</span>
+      </div>
+      <div class="modulo-chev">⌄</div>`;
+    det.appendChild(summary);
+
+    const body = document.createElement('div');
+    body.className = 'modulo-body';
+
+    mod.items.forEach(it => {
+      const idet = document.createElement('details');
+      idet.className = 'item';
+      const isum = document.createElement('summary');
+      isum.innerHTML = `<span class="item-nom">${it.titulo}</span>`;
+      idet.appendChild(isum);
+      const ibody = document.createElement('div');
+      ibody.className = 'item-body';
+      if (it.youtubeId){
+        ibody.innerHTML = `<div class="yt-wrap"><iframe src="https://www.youtube-nocookie.com/embed/${it.youtubeId}?modestbranding=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+      } else {
+        ibody.innerHTML = `<div class="proximamente"><b>Próximamente</b>Este video se va a habilitar en breve.</div>`;
+      }
+      idet.appendChild(ibody);
+      body.appendChild(idet);
+    });
+
+    det.appendChild(body);
+    cont.appendChild(det);
+  });
+}
+
+function mostrarContenido(){
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('contenido').style.display = 'block';
+  renderModulos();
+}
+
+document.getElementById('gate-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  const usr = document.getElementById('usr').value.trim().toLowerCase();
+  const pwd = document.getElementById('pwd').value.trim().toLowerCase();
+  const err = document.getElementById('gate-error');
+  if (usr === USUARIO && pwd === CLAVE.toLowerCase()){
+    try { sessionStorage.setItem(SESSION_KEY, '1'); } catch(e){}
+    mostrarContenido();
+  } else {
+    err.textContent = 'Usuario o contraseña incorrectos.';
+  }
+});
+
+document.getElementById('btn-logout').addEventListener('click', function(){
+  try { sessionStorage.removeItem(SESSION_KEY); } catch(e){}
+  document.getElementById('contenido').style.display = 'none';
+  document.getElementById('gate').style.display = 'flex';
+  document.getElementById('pwd').value = '';
+});
+
+// Si ya inició sesión en esta pestaña/sesión del navegador, no pedir de nuevo.
+(function(){
+  try {
+    if (sessionStorage.getItem(SESSION_KEY) === '1'){
+      mostrarContenido();
+    }
+  } catch(e){}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+# Videos locales del Financial Plan (757MB) — ya no se usan en el sitio,
+# los módulos cargados se ven desde YouTube. No subir esto a git.
+/videos/
+.DS_Store
