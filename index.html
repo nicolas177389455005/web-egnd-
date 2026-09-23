@@ -26,18 +26,18 @@ nav.scrolled{background:rgba(11,29,53,.97);backdrop-filter:blur(12px);box-shadow
 
 .logo{text-decoration:none;font-family:var(--ffL);font-weight:700;font-size:2rem;color:#fff;letter-spacing:-.5px}
 
-.nav-links{display:flex;gap:36px;list-style:none}
-.nav-links a{font-family:var(--ff1);font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--texto);text-decoration:none;transition:color var(--tr);position:relative}
+.nav-links{display:flex;gap:26px;list-style:none}
+.nav-links a{font-family:var(--ff1);font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--texto);text-decoration:none;transition:color var(--tr);position:relative;white-space:nowrap}
 .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--acc);transition:width var(--tr)}
 .nav-links a:hover{color:#fff}
 .nav-links a:hover::after{width:100%}
-.nav-cta{background:var(--acc)!important;color:var(--az1)!important;padding:10px 22px;border-radius:100px;font-weight:700!important}
+.nav-cta{background:var(--acc)!important;color:var(--az1)!important;padding:9px 18px;border-radius:100px;font-weight:700!important}
 .nav-cta:hover{background:var(--acc2)!important;transform:translateY(-1px)}
-.nav-clientes{border:1.5px solid var(--acc)!important;padding:8.5px 20px;border-radius:100px}
+.nav-clientes{border:1.5px solid var(--acc)!important;padding:7.5px 16px;border-radius:100px}
 .nav-clientes:hover{background:rgba(255,255,255,.08)!important}
 .nav-clientes:hover::after{display:none!important}
 .nav-cta::after{display:none!important}
-.nav-impacto{background:#ff7a1a!important;color:#fff!important;padding:10px 22px;border-radius:100px;font-weight:700!important;transition:all var(--tr)}
+.nav-impacto{background:#ff7a1a!important;color:#fff!important;padding:9px 18px;border-radius:100px;font-weight:700!important;transition:all var(--tr)}
 .nav-impacto:hover{background:#e8690a!important;transform:translateY(-1px)}
 .nav-impacto::after{display:none!important}
 
@@ -207,6 +207,7 @@ footer p{font-size:.82rem;color:var(--gris3)}
 .perfil-card:focus-visible{outline:2px solid var(--acc);outline-offset:4px}
 
 @media(max-width:1100px){.sv-grid{grid-template-columns:repeat(2,1fr)}.cl-grid{grid-template-columns:repeat(4,1fr)}.eq-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1440px) and (min-width:769px){.nav-links{gap:16px}.nav-links a{font-size:.68rem}.nav-cta,.nav-clientes,.nav-impacto{padding:7px 14px}}
 @media(max-width:768px){
   nav{padding:16px 24px}.nav-links{display:none}
   section{padding:80px 24px}#inicio{padding:120px 24px 60px}
